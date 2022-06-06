@@ -5,7 +5,7 @@ const parsedData = require("./Model/parsermodel");
 const { collection } = require("./Model/parsermodel");
 
 const MongoClient = require('mongodb').MongoClient
-const uri = 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-test?authSource=admin&replicaSet=atlas-1389yt-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true'
+const uri = 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?authSource=admin&replicaSet=atlas-1389yt-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true'
 const client = new MongoClient(uri)
 const connection = client.connect() // initialized connection
 
