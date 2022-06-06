@@ -1,0 +1,519 @@
+[
+  {
+    "degree": "Bachelor Of Accountancy",
+    "abbreviation": ["B.Acy", "B.Acc", "B. Accty", "BAcc"]
+  },
+  {
+    "degree": "Bachelor Of Applied Science",
+    "abbreviation": ["B.AS", "BAS", "BSAS", "B.ASc", "BAppSc", "BASc"]
+  },
+  { "degree": "Bachelor Of Architecture", "abbreviation": ["B.Arch", "BArch"] },
+  { "degree": "Bachelor Of Arts", "abbreviation": ["B.A", "BA"] },
+  {
+    "degree": "Bachelor Of Business Administration",
+    "abbreviation": ["B.B.A", "BBA"]
+  },
+  { "degree": "Bachelor Of Clinical Optometry", "abbreviation": ["BOptom"] },
+  {
+    "degree": "Bachelor Of Dental Surgery",
+    "abbreviation": ["BChD", "BDentS", "BDS"]
+  },
+  {
+    "degree": "Bachelor Of Design",
+    "abbreviation": ["B.Des", "B.Design", "BDes"]
+  },
+  { "degree": "Bachelor Of Divinity", "abbreviation": ["BDIV", "BD"] },
+  {
+    "degree": "Bachelor Of Economics",
+    "abbreviation": [
+      "BEc",
+      "BA(Econ)",
+      "BScEcon",
+      "BSc(Econ)",
+      "BSSc(Econ)",
+      "BBA(Econ)",
+      "BEconSc",
+      "BScEcon"
+    ]
+  },
+  { "degree": "Bachelor Of Education", "abbreviation": ["B.Ed", "BEd"] },
+  {
+    "degree": "Bachelor of Engineering",
+    "abbreviation": ["B.E", "B.Eng", "BEng", "Engineering"]
+  },
+  { "degree": "Bachelor Of Finance", "abbreviation": ["BFin"] },
+  {
+    "degree": "Bachelor Of Fine Arts",
+    "abbreviation": ["BFA", "B.F.A", "BFA"]
+  },
+  { "degree": "Bachelor Of Health Science", "abbreviation": ["BHSc"] },
+  { "degree": "Bachelor Of Laws", "abbreviation": ["LL.B", "B.L", "LLB"] },
+  {
+    "degree": "Bachelor Of Medical Sciences",
+    "abbreviation": ["BMedSc", "BMSc", "BSci(Med)", "BMedSci"]
+  },
+  { "degree": "Bachelor Of Medicine", "abbreviation": ["BM"] },
+  {
+    "degree": "Bachelor Of Medicine, Bachelor Of Surgery",
+    "abbreviation": [
+      "MBBS",
+      "MBChB",
+      "MBBCh",
+      "MBBChir(Cantab)",
+      "BMBCh(Oxon)",
+      "MB,BChir",
+      "BMBS"
+    ]
+  },
+  { "degree": "Bachelor Of Midwifery", "abbreviation": ["BMidWif", "BMid"] },
+  {
+    "degree": "Bachelor Of Music",
+    "abbreviation": ["B.Mus", "Mus.B", "Mus.Bac", "BMus"]
+  },
+  { "degree": "Bachelor Of Nursing", "abbreviation": ["BN", "BNurs"] },
+  { "degree": "Bachelor Of Osteopathy", "abbreviation": ["BOstMed", "BOst"] },
+  {
+    "degree": "Bachelor Of Science",
+    "abbreviation": ["BSc", "B.S", "BS", "B.Sc", "Sc.B", "BSc"]
+  },
+  {
+    "degree": "Bachelor Of Social Science",
+    "abbreviation": ["B.Soc.Sc", "B.Soc.Sci", "BSocSc"]
+  },
+  { "degree": "Bachelor Of Social Work", "abbreviation": ["BSW"] },
+  {
+    "degree": "Bachelor Of Technological Education",
+    "abbreviation": ["BTechEd"]
+  },
+  { "degree": "Bachelor of Technology", "abbreviation": ["B.Tech", "Btech"] },
+  {
+    "degree": "Bachelor Of Theology",
+    "abbreviation": ["B.Th", "Th.B", "BTheol", "BTh"]
+  },
+  {
+    "degree": "Bachelor Of Veterinary Medicine",
+    "abbreviation": ["BVMBVS", "BVetMed"]
+  },
+  {
+    "degree": "Bachelor Of Veterinary Medicine and Surgery",
+    "abbreviation": ["BVM&S", "BVMS"]
+  },
+  {
+    "degree": "Bachelor Of Veterinary Science",
+    "abbreviation": ["BVSC", "BVMedSci", "BVSc"]
+  },
+  {
+    "degree": "Business and Technology Education Council",
+    "abbreviation": ["BTEC"]
+  },
+  {
+    "degree": "Certificate Of Higher Education",
+    "abbreviation": ["Cert.HE", "Cert ED", "CertED", "CertHE"]
+  },
+  {
+    "degree": "Common PrOfessional Examination in Law",
+    "abbreviation": ["CPE"]
+  },
+  {
+    "degree": "Diploma in the Advanced Study Of Education",
+    "abbreviation": ["DASE"]
+  },
+  { "degree": "Diploma Of Higher Education", "abbreviation": ["DipHE"] },
+  { "degree": "Doctor Of Art", "abbreviation": ["DArts"] },
+  { "degree": "Doctor Of Biomedical Science", "abbreviation": ["DBMS"] },
+  { "degree": "Doctor Of Built Environment", "abbreviation": ["DBEnv"] },
+  {
+    "degree": "Doctor Of Business Administration",
+    "abbreviation": ["D.B.A", "DBA"]
+  },
+  { "degree": "Doctor Of Chiropractic", "abbreviation": ["DChiro"] },
+  { "degree": "Doctor Of Civil Law", "abbreviation": ["DCL"] },
+  { "degree": "Doctor Of Clinical Dentistry", "abbreviation": ["DClinDent"] },
+  { "degree": "Doctor Of Clinical Dentistry", "abbreviation": ["DClinDent"] },
+  { "degree": "Doctor Of Clinical Practice", "abbreviation": ["DClinP"] },
+  {
+    "degree": "Doctor Of Clinical Psychology",
+    "abbreviation": ["DClinPsy", "ClinPsyD", "DClinPsych"]
+  },
+  { "degree": "Doctor Of Clinical Research", "abbreviation": ["DClinRes"] },
+  { "degree": "Doctor Of Coaching and Mentoring", "abbreviation": ["DCaM"] },
+  {
+    "degree": "Doctor Of Community Learning & Development",
+    "abbreviation": ["DCommEd"]
+  },
+  {
+    "degree": "Doctor Of Counselling Psychology",
+    "abbreviation": ["DCounsPych"]
+  },
+  {
+    "degree": "Doctor Of Counselling Psychology",
+    "abbreviation": ["DCounsPsych"]
+  },
+  { "degree": "Doctor Of Criminal Justice", "abbreviation": ["DCrimJ"] },
+  { "degree": "Doctor Of Dental Medicine", "abbreviation": ["DMD"] },
+  {
+    "degree": "Doctor Of Dental Surgery or Orthodontics",
+    "abbreviation": ["DDSc", "DDS"]
+  },
+  {
+    "degree": "Doctor Of Dentistry or Doctor Of Divinity",
+    "abbreviation": ["DD"]
+  },
+  { "degree": "Doctor Of Design", "abbreviation": ["DDes"] },
+  { "degree": "Doctor Of Education", "abbreviation": ["EdD", "DrPS", "DEd"] },
+  {
+    "degree": "Doctor Of Educational and Child Psychology",
+    "abbreviation": ["DEdChPsy", "EdChPsychD"]
+  },
+  { "degree": "Doctor Of Educational Psychology", "abbreviation": ["DEdPsy"] },
+  { "degree": "Doctor Of Engineering", "abbreviation": ["EngD"] },
+  { "degree": "Doctor Of Enterprise", "abbreviation": ["EntD"] },
+  {
+    "degree": "Doctor Of Forensic Clinical Psychology",
+    "abbreviation": ["ForenClinPsyD"]
+  },
+  { "degree": "Doctor Of Forensic Psychology", "abbreviation": ["DForensPsy"] },
+  {
+    "degree": "Doctor Of Forensic Psychology Practice",
+    "abbreviation": ["ForenPsyD"]
+  },
+  { "degree": "Doctor Of Health", "abbreviation": ["DHealth"] },
+  { "degree": "Doctor Of Health Psychology", "abbreviation": ["DHealthPsy"] },
+  { "degree": "Doctor Of Health Science", "abbreviation": ["DHSc", "HScD"] },
+  { "degree": "Doctor Of Jurisprudence", "abbreviation": ["JD"] },
+  { "degree": "Doctor Of Laws", "abbreviation": ["LLD"] },
+  {
+    "degree": "Doctor Of Letters or Doctor Of Literature",
+    "abbreviation": ["LittD", "DLitt"]
+  },
+  { "degree": "Doctor Of Medicine", "abbreviation": ["MB", "DM"] },
+  { "degree": "Doctor Of Ministry", "abbreviation": ["DMin"] },
+  { "degree": "Doctor Of Music", "abbreviation": ["MusD", "DMus"] },
+  { "degree": "Doctor Of Nursing Science", "abbreviation": ["DNursSc"] },
+  { "degree": "Doctor Of Philosophy", "abbreviation": ["DPhil", "PhD"] },
+  {
+    "degree": "Doctor Of Physical Therapy or Doctor Of Practical Theology",
+    "abbreviation": ["DPT"]
+  },
+  {
+    "degree": "Doctor Of PrOfessional Studies",
+    "abbreviation": ["DPS", "DPrOf"]
+  },
+  { "degree": "Doctor Of Psychology", "abbreviation": ["Psy.D", "DPsych"] },
+  { "degree": "Doctor Of Public Health", "abbreviation": ["DrPH"] },
+  { "degree": "Doctor Of Public Health", "abbreviation": ["Dr.P.H"] },
+  { "degree": "Doctor Of Science", "abbreviation": ["ScD", "DSc"] },
+  { "degree": "Doctor Of Security Risk Management", "abbreviation": ["DSyRM"] },
+  {
+    "degree": "Doctor Of Social Science",
+    "abbreviation": ["DSocSci", "SocScD"]
+  },
+  { "degree": "Doctor Of Social Work", "abbreviation": ["DSW"] },
+  { "degree": "Doctor Of the University", "abbreviation": ["DUniv"] },
+  { "degree": "Doctor Of Theology", "abbreviation": ["ThD"] },
+  { "degree": "Doctor Of Theology and Ministry", "abbreviation": ["DThM"] },
+  { "degree": "Doctor Of Veterinary Medicine", "abbreviation": ["DVM"] },
+  {
+    "degree": "Doctor Of Veterinary Science",
+    "abbreviation": ["DVetMed", "DVS"]
+  },
+  {
+    "degree": "English Language Teaching Management",
+    "abbreviation": ["ELT Management"]
+  },
+  { "degree": "European Master", "abbreviation": ["EM"] },
+  { "degree": "Executive MBA", "abbreviation": ["EMBA"] },
+  { "degree": "Foundation degree", "abbreviation": ["FDs", "FD"] },
+  {
+    "degree": "Foundation Degree in Learning Support",
+    "abbreviation": ["FdEd", "FDEd"]
+  },
+  {
+    "degree": "Foundation Of Arts (Foundation degree)",
+    "abbreviation": ["FDA", "FDArts", "FdA"]
+  },
+  {
+    "degree": "Foundation Of Engineering (Foundation degree)",
+    "abbreviation": ["FDEng"]
+  },
+  {
+    "degree": "Foundation Of Sciences (Foundation degree)",
+    "abbreviation": ["FdSc"]
+  },
+  { "degree": "Graduate Diploma in Law", "abbreviation": ["GDL"] },
+  { "degree": "Higher National Certificate", "abbreviation": ["HNC"] },
+  { "degree": "Higher National Diploma", "abbreviation": ["HNDip", "HND"] },
+  {
+    "degree": "Integrated PrOfessional Master in Languages",
+    "abbreviation": ["IPML"]
+  },
+  { "degree": "Legal Practice Course", "abbreviation": ["LPC"] },
+  {
+    "degree": "Magister Juris or Master Of Jurisprudence",
+    "abbreviation": ["M.Jur", "Mag. Jur", "Mag. iur", "MJur"]
+  },
+  { "degree": "Master in Arts", "abbreviation": ["Mart", "MART"] },
+  { "degree": "Master in Chemistry", "abbreviation": ["MChem"] },
+  { "degree": "Master in European Business", "abbreviation": ["MEB"] },
+  { "degree": "Master in Hotel Management", "abbreviation": ["MHM"] },
+  {
+    "degree": "Master Of Accountancy",
+    "abbreviation": ["MAc", "MAcy", "MAcc"]
+  },
+  { "degree": "Master Of Advanced Metallurgy", "abbreviation": ["MMet"] },
+  { "degree": "Master Of Anthropology", "abbreviation": ["MAnth"] },
+  { "degree": "Master Of Architecture", "abbreviation": ["M.Arch", "MArch"] },
+  { "degree": "Master Of Arts", "abbreviation": ["M.A", "MA"] },
+  {
+    "degree": "Master Of Biochemistry",
+    "abbreviation": ["MBioch", "MBiolSci", "MBiochem"]
+  },
+  { "degree": "Master Of Biology", "abbreviation": ["MBio", "MBiol"] },
+  {
+    "degree": "Master Of Biomedical Siences",
+    "abbreviation": ["MBioms", "MBIOMS", "MBioMed"]
+  },
+  { "degree": "Master Of Business", "abbreviation": ["MBus"] },
+  {
+    "degree": "Master Of Business Administration",
+    "abbreviation": ["M.B.A", "MBA"]
+  },
+  { "degree": "Master Of Chemical Physics", "abbreviation": ["MChemPhys"] },
+  { "degree": "Master Of Chiropractic", "abbreviation": ["MChiro"] },
+  { "degree": "Master Of Classical Studies", "abbreviation": ["MClass"] },
+  { "degree": "Master Of Clinical Dentistry", "abbreviation": ["MClinDent"] },
+  { "degree": "Master Of Clinical Education", "abbreviation": ["MClinEd"] },
+  { "degree": "Master Of Clinical Optometry", "abbreviation": ["MOptom"] },
+  { "degree": "Master Of Clinical Research", "abbreviation": ["MClin Res"] },
+  { "degree": "Master Of Clinical Research", "abbreviation": ["MClinRes"] },
+  {
+    "degree": "Master Of Computational Mathematics",
+    "abbreviation": ["MMathCompSci", "MMathComp"]
+  },
+  {
+    "degree": "Master Of Computer Science and Philosophy",
+    "abbreviation": ["MCompPhil"]
+  },
+  {
+    "degree": "Master Of Computing",
+    "abbreviation": [
+      "MCompSci (Oxford University)",
+      "MInf (Master Of Informatics)",
+      "MComp"
+    ]
+  },
+  {
+    "degree": "Master Of Counselling",
+    "abbreviation": ["MC", "M.C", "M.Couns", "MCouns"]
+  },
+  {
+    "degree": "Master Of Creative Writing Crime Fiction",
+    "abbreviation": ["MA(Engl)"]
+  },
+  { "degree": "Master Of Dental Public Health", "abbreviation": ["MDPH"] },
+  { "degree": "Master Of Dental Science", "abbreviation": ["MDSc"] },
+  {
+    "degree": "Master Of Dental Surgery",
+    "abbreviation": ["MChd", "MChD", "MDS"]
+  },
+  {
+    "degree": "Master Of Design",
+    "abbreviation": ["M.Des", "M.Design", "MDes"]
+  },
+  {
+    "degree": "Master Of Earth Science",
+    "abbreviation": ["MEarthSci", "MEarthPhys", "MESci"]
+  },
+  { "degree": "Master Of Ecology", "abbreviation": ["MEcol"] },
+  { "degree": "Master Of Economics", "abbreviation": ["MEcon"] },
+  {
+    "degree": "Master Of Education",
+    "abbreviation": [
+      "M.Ed",
+      "Ed.M",
+      "M.A.Ed",
+      "M.A.E",
+      "M.S.Ed",
+      "M.Ed.L",
+      "M.S.E",
+      "MA(Ed)",
+      "MEd"
+    ]
+  },
+  {
+    "degree": "Master Of Engineering",
+    "abbreviation": ["MEng", "M.Eng", "MEng"]
+  },
+  { "degree": "Master Of Enterprise", "abbreviation": ["M.Ent", "MEnt"] },
+  {
+    "degree": "Master Of Environmental Science",
+    "abbreviation": ["MEnv", "MEnvSci"]
+  },
+  { "degree": "Master Of Finance", "abbreviation": ["M.Fin", "MiF", "MFin"] },
+  { "degree": "Master Of Fine Arts", "abbreviation": ["M.F.A", "MFA"] },
+  { "degree": "Master Of Geography", "abbreviation": ["MGeog"] },
+  { "degree": "Master Of Geology", "abbreviation": ["MGeol"] },
+  {
+    "degree": "Master Of Geophysics",
+    "abbreviation": ["MGeophys", "MGeoPhys"]
+  },
+  {
+    "degree": "Master Of Geoscience",
+    "abbreviation": ["MGeoscience", "MGeoSci"]
+  },
+  { "degree": "Master Of Health Science", "abbreviation": ["MHS"] },
+  { "degree": "Master Of History", "abbreviation": ["MHist"] },
+  { "degree": "Master Of Innovation", "abbreviation": ["MInnov"] },
+  { "degree": "Master Of International Affairs", "abbreviation": ["MIA"] },
+  { "degree": "Master Of Land Economy", "abbreviation": ["MLE"] },
+  { "degree": "Master Of Law", "abbreviation": ["MLaw"] },
+  { "degree": "Master Of Laws", "abbreviation": ["LL.M", "LLM"] },
+  { "degree": "Master Of Legal Science", "abbreviation": ["MLegSc"] },
+  { "degree": "Master Of Letters", "abbreviation": ["MLitt"] },
+  { "degree": "Master Of Liberal Arts", "abbreviation": ["MLA"] },
+  { "degree": "Master Of Liberal Arts", "abbreviation": ["MLibArts"] },
+  { "degree": "Master Of Linguistic Studies", "abbreviation": ["MLang"] },
+  {
+    "degree": "Master Of Marine Biology",
+    "abbreviation": ["MMBiol", "MMarBiol"]
+  },
+  { "degree": "Master Of Marine Science", "abbreviation": ["MMSci"] },
+  { "degree": "Master Of Marketing", "abbreviation": ["MMkt"] },
+  { "degree": "Master Of Materials Science", "abbreviation": ["MASt"] },
+  { "degree": "Master Of Mathematics", "abbreviation": ["MMath"] },
+  {
+    "degree": "Master Of Mathematics and Philosophy",
+    "abbreviation": ["MMathPhil"]
+  },
+  {
+    "degree": "Master Of Mathematics and Physics",
+    "abbreviation": ["MMath&Phys", "MMathPhys"]
+  },
+  { "degree": "Master Of Medical Education", "abbreviation": ["MMedEd"] },
+  { "degree": "Master Of Medical Science", "abbreviation": ["MMedSci"] },
+  {
+    "degree": "Master Of Medical Science in Public Health",
+    "abbreviation": ["MMSPH"]
+  },
+  { "degree": "Master Of Meteorology", "abbreviation": ["MMet"] },
+  { "degree": "Master Of Midwifery", "abbreviation": ["MMid"] },
+  { "degree": "Master Of Museum Practice", "abbreviation": ["MPrac"] },
+  { "degree": "Master Of Music", "abbreviation": ["M.M", "M.Mus", "MMus"] },
+  { "degree": "Master Of Music Therapy", "abbreviation": ["MMT"] },
+  { "degree": "Master Of Natural Sciences", "abbreviation": ["MNatSci"] },
+  { "degree": "Master Of Neuroscience", "abbreviation": ["MNeuroSci"] },
+  { "degree": "Master Of Nursing", "abbreviation": ["MN"] },
+  {
+    "degree": "Master Of Nursing Science",
+    "abbreviation": ["MNursSci", "MNurs"]
+  },
+  { "degree": "Master Of Nutrition", "abbreviation": ["MNutr"] },
+  { "degree": "Master Of Oceanography", "abbreviation": ["MOSci", "MOcean"] },
+  { "degree": "Master Of Orthopaedic Surgery", "abbreviation": ["MCh Orth"] },
+  { "degree": "Master Of Osteopathy", "abbreviation": ["M.Ost", "MOst"] },
+  { "degree": "Master Of Performance", "abbreviation": ["MPerf"] },
+  { "degree": "Master Of Pharmacology", "abbreviation": ["MPharmacol"] },
+  { "degree": "Master Of Pharmacy", "abbreviation": ["MPharmSci", "MPharm"] },
+  {
+    "degree": "Master Of Philosophy",
+    "abbreviation": ["M.Phil", "Ph.M", "M Phil", "MPhil"]
+  },
+  {
+    "degree": "Master Of Physics",
+    "abbreviation": ["MPhyPhil (Physics and Philosophy)", "MPhys"]
+  },
+  { "degree": "Master Of Planning", "abbreviation": ["MPlan"] },
+  { "degree": "Master Of Primary Care", "abbreviation": ["MPC"] },
+  {
+    "degree": "Master Of PrOfessional Accountancy",
+    "abbreviation": ["MPAcy", "MPAcc", "MPAc"]
+  },
+  { "degree": "Master Of PrOfessional Practice", "abbreviation": ["MPrOf"] },
+  { "degree": "Master Of Psychology", "abbreviation": ["PsyM", "MPsych"] },
+  {
+    "degree": "Master Of Public Administration",
+    "abbreviation": ["M.P.Adm", "M.P.A", "MPA"]
+  },
+  { "degree": "Master Of Public Health", "abbreviation": ["M.P.H", "MPH"] },
+  { "degree": "Master Of Public Policy", "abbreviation": ["MPP"] },
+  {
+    "degree": "Master Of Research",
+    "abbreviation": [
+      "MA by research",
+      "MARes",
+      "MA(Res)",
+      "MSc by research",
+      "MSc(Res)",
+      "MScRes",
+      "M(Res)",
+      "MRes"
+    ]
+  },
+  {
+    "degree": "Master Of Science",
+    "abbreviation": [
+      "MSci",
+      "M.S",
+      "MS",
+      "M.Sc",
+      "M.Sci",
+      "S.M",
+      "Sc.M",
+      "Sci.M",
+      "MSc"
+    ]
+  },
+  {
+    "degree": "Master Of Science in Dentistry",
+    "abbreviation": ["MSD", "MScD"]
+  },
+  { "degree": "Master Of Science in Public Health", "abbreviation": ["MSPH"] },
+  {
+    "degree": "Master Of Social Science",
+    "abbreviation": ["M.Soc.Sci", "MSSc"]
+  },
+  { "degree": "Master Of Social Work", "abbreviation": ["MSW"] },
+  { "degree": "Master Of Studies", "abbreviation": ["MSt"] },
+  {
+    "degree": "Master Of Surgery",
+    "abbreviation": ["Ch.M", "M.Ch", "M.Chir", "MCh"]
+  },
+  {
+    "degree": "Master Of Teaching and Learning",
+    "abbreviation": ["MTL", "MTeach"]
+  },
+  {
+    "degree": "Master Of Technology",
+    "abbreviation": ["M.Tech", "MTech"]
+  },
+  {
+    "degree": "Master Of Theology",
+    "abbreviation": ["MTheol", "Th.M", "M.Th", "MTh"]
+  },
+  {
+    "degree": "Master Of Veterinary Medicine",
+    "abbreviation": ["Vet.M.B", "MVM"]
+  },
+  {
+    "degree": "Master Of Veterinary Physiotherapy",
+    "abbreviation": ["MVetPhys"]
+  },
+  { "degree": "Master Of Veterinary Public Health", "abbreviation": ["MVPH"] },
+  {
+    "degree": "Master Of Veterinary Sciences",
+    "abbreviation": ["M.Vet.Sci", "MVetSci"]
+  },
+  { "degree": "Master Of Veterinary Surgery", "abbreviation": ["MVS"] },
+  { "degree": "Master Of Zoology", "abbreviation": ["MZOOL"] },
+  { "degree": "Masters Of Clinical Sciences", "abbreviation": ["MClinSci"] },
+  {
+    "degree": "Overseas Pharmacists' Assessment Programme",
+    "abbreviation": ["OSPAP"]
+  },
+  { "degree": "Qualifications and Credit Framework", "abbreviation": ["QCF"] },
+  {
+    "degree": "Teaching Qualification (Further Education)",
+    "abbreviation": ["TQFE"]
+  },
+  { "degree": "Top-up degree", "abbreviation": ["Top-up"] }
+]

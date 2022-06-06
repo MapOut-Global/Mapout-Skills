@@ -1,0 +1,81 @@
+"2022-03-21 10:03:44" INFO --> Manual build specified. Building O*NET CompetencyOntology via direct querying from O*NET site, or local cache.
+"2022-03-21 10:03:44" INFO --> Processing Content Model Reference
+"2022-03-21 10:03:44" INFO --> Processing skills set
+"2022-03-21 10:03:46" INFO --> Found 95288 entries for lookup
+"2022-03-21 10:04:24" INFO --> Found 95288 entries for lookup
+"2022-03-21 10:04:33" INFO --> xref found: pos=b'216'
+"2022-03-21 10:04:33" INFO --> read_xref_from: start=216, token=4
+"2022-03-21 10:04:33" INFO --> xref stream: objid=(3, 41), fields=1,2,1
+"2022-03-21 10:04:33" INFO --> trailer: {'Type': /'XRef', 'Length': 56, 'Filter': /'FlateDecode', 'DecodeParms': {'Columns': 4, 'Predictor': 12}, 'W': [1, 2, 1], 'Index': [3, 41], 'Info': <PDFObjRef:1>, 'Root': <PDFObjRef:5>, 'Size': 44, 'Prev': 87184, 'ID': [b"}\xcf\x81\x8bc\xda\xc5vN\xb2\xc8\x14'\xea\xc6\xe4", b'J\x99\xaf\xf0B"Y\xdc\xbdF$[[\xfe:l']}
+"2022-03-21 10:04:33" INFO --> read_xref_from: start=87184, token=2
+"2022-03-21 10:04:33" INFO --> xref stream: objid=(0, 3), fields=1,3,1
+"2022-03-21 10:04:33" INFO --> trailer: {'Type': /'XRef', 'Length': 23, 'Filter': /'FlateDecode', 'DecodeParms': {'Columns': 5, 'Predictor': 12}, 'W': [1, 3, 1], 'Size': 3, 'ID': [b"}\xcf\x81\x8bc\xda\xc5vN\xb2\xc8\x14'\xea\xc6\xe4", b'J\x99\xaf\xf0B"Y\xdc\xbdF$[[\xfe:l']}
+"2022-03-21 10:04:33" INFO --> Pages: Kids=[<PDFObjRef:8>]
+"2022-03-21 10:04:33" INFO --> Page: {'Annots': [<PDFObjRef:17>, <PDFObjRef:18>, <PDFObjRef:19>, <PDFObjRef:20>], 'Contents': <PDFObjRef:9>, 'MediaBox': [0, 0, 612, 1008], 'Parent': <PDFObjRef:29>, 'Resources': <PDFObjRef:21>, 'Type': /'Page'}
+"2022-03-21 10:04:33" INFO --> Processing page: <PDFPage: Resources={'ColorSpace': <PDFObjRef:15>, 'ExtGState': <PDFObjRef:13>, 'Font': {'F38': <PDFObjRef:25>, 'F39': <PDFObjRef:26>, 'F48': <PDFObjRef:24>, 'F52': <PDFObjRef:27>, 'F53': <PDFObjRef:28>}, 'Pattern': <PDFObjRef:14>, 'ProcSet': [/'PDF', /'Text']}, MediaBox=[0, 0, 612, 1008]>
+"2022-03-21 10:04:33" INFO --> render_contents: resources={'ColorSpace': <PDFObjRef:15>, 'ExtGState': <PDFObjRef:13>, 'Font': {'F38': <PDFObjRef:25>, 'F39': <PDFObjRef:26>, 'F48': <PDFObjRef:24>, 'F52': <PDFObjRef:27>, 'F53': <PDFObjRef:28>}, 'Pattern': <PDFObjRef:14>, 'ProcSet': [/'PDF', /'Text']}, streams=[<PDFStream(9): raw=8814, {'Filter': /'FlateDecode', 'Length': 8813}>], ctm=(1, 0, 0, 1, 0, 0)
+"2022-03-21 10:04:33" INFO --> get_font: create: objid=25, spec={'BaseFont': /'PJIMKB+FontAwesome', 'Encoding': <PDFObjRef:36>, 'FirstChar': 91, 'FontDescriptor': <PDFObjRef:39>, 'LastChar': 91, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:37>}
+"2022-03-21 10:04:33" INFO --> get_font: create: objid=26, spec={'BaseFont': /'PJIMKB+FontAwesome', 'Encoding': <PDFObjRef:34>, 'FirstChar': 17, 'FontDescriptor': <PDFObjRef:39>, 'LastChar': 189, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:35>}
+"2022-03-21 10:04:33" INFO --> get_font: create: objid=24, spec={'BaseFont': /'VCPWAV+Lato-Bold', 'Encoding': <PDFObjRef:30>, 'FirstChar': 28, 'FontDescriptor': <PDFObjRef:40>, 'LastChar': 121, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:38>}
+"2022-03-21 10:04:33" INFO --> get_font: create: objid=27, spec={'BaseFont': /'DCAOTC+Lato-Regular', 'Encoding': <PDFObjRef:32>, 'FirstChar': 136, 'FontDescriptor': <PDFObjRef:41>, 'LastChar': 136, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:33>}
+"2022-03-21 10:04:33" INFO --> get_font: create: objid=28, spec={'BaseFont': /'DCAOTC+Lato-Regular', 'Encoding': <PDFObjRef:30>, 'FirstChar': 21, 'FontDescriptor': <PDFObjRef:41>, 'LastChar': 122, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:31>}
+"2022-03-21 10:04:33" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:04:33" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:04:33" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:04:33" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:04:33" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:04:33" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:04:57" INFO --> Manual build specified. Building O*NET CompetencyOntology via direct querying from O*NET site, or local cache.
+"2022-03-21 10:04:57" INFO --> Processing Content Model Reference
+"2022-03-21 10:04:57" INFO --> Processing skills set
+"2022-03-21 10:04:59" INFO --> Found 95288 entries for lookup
+"2022-03-21 10:05:29" INFO --> Found 95288 entries for lookup
+"2022-03-21 10:05:36" INFO --> xref found: pos=b'216'
+"2022-03-21 10:05:36" INFO --> read_xref_from: start=216, token=4
+"2022-03-21 10:05:36" INFO --> xref stream: objid=(3, 41), fields=1,2,1
+"2022-03-21 10:05:36" INFO --> trailer: {'Type': /'XRef', 'Length': 56, 'Filter': /'FlateDecode', 'DecodeParms': {'Columns': 4, 'Predictor': 12}, 'W': [1, 2, 1], 'Index': [3, 41], 'Info': <PDFObjRef:1>, 'Root': <PDFObjRef:5>, 'Size': 44, 'Prev': 87184, 'ID': [b"}\xcf\x81\x8bc\xda\xc5vN\xb2\xc8\x14'\xea\xc6\xe4", b'J\x99\xaf\xf0B"Y\xdc\xbdF$[[\xfe:l']}
+"2022-03-21 10:05:36" INFO --> read_xref_from: start=87184, token=2
+"2022-03-21 10:05:36" INFO --> xref stream: objid=(0, 3), fields=1,3,1
+"2022-03-21 10:05:36" INFO --> trailer: {'Type': /'XRef', 'Length': 23, 'Filter': /'FlateDecode', 'DecodeParms': {'Columns': 5, 'Predictor': 12}, 'W': [1, 3, 1], 'Size': 3, 'ID': [b"}\xcf\x81\x8bc\xda\xc5vN\xb2\xc8\x14'\xea\xc6\xe4", b'J\x99\xaf\xf0B"Y\xdc\xbdF$[[\xfe:l']}
+"2022-03-21 10:05:36" INFO --> Pages: Kids=[<PDFObjRef:8>]
+"2022-03-21 10:05:36" INFO --> Page: {'Annots': [<PDFObjRef:17>, <PDFObjRef:18>, <PDFObjRef:19>, <PDFObjRef:20>], 'Contents': <PDFObjRef:9>, 'MediaBox': [0, 0, 612, 1008], 'Parent': <PDFObjRef:29>, 'Resources': <PDFObjRef:21>, 'Type': /'Page'}
+"2022-03-21 10:05:36" INFO --> Processing page: <PDFPage: Resources={'ColorSpace': <PDFObjRef:15>, 'ExtGState': <PDFObjRef:13>, 'Font': {'F38': <PDFObjRef:25>, 'F39': <PDFObjRef:26>, 'F48': <PDFObjRef:24>, 'F52': <PDFObjRef:27>, 'F53': <PDFObjRef:28>}, 'Pattern': <PDFObjRef:14>, 'ProcSet': [/'PDF', /'Text']}, MediaBox=[0, 0, 612, 1008]>
+"2022-03-21 10:05:36" INFO --> render_contents: resources={'ColorSpace': <PDFObjRef:15>, 'ExtGState': <PDFObjRef:13>, 'Font': {'F38': <PDFObjRef:25>, 'F39': <PDFObjRef:26>, 'F48': <PDFObjRef:24>, 'F52': <PDFObjRef:27>, 'F53': <PDFObjRef:28>}, 'Pattern': <PDFObjRef:14>, 'ProcSet': [/'PDF', /'Text']}, streams=[<PDFStream(9): raw=8814, {'Filter': /'FlateDecode', 'Length': 8813}>], ctm=(1, 0, 0, 1, 0, 0)
+"2022-03-21 10:05:36" INFO --> get_font: create: objid=25, spec={'BaseFont': /'PJIMKB+FontAwesome', 'Encoding': <PDFObjRef:36>, 'FirstChar': 91, 'FontDescriptor': <PDFObjRef:39>, 'LastChar': 91, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:37>}
+"2022-03-21 10:05:36" INFO --> get_font: create: objid=26, spec={'BaseFont': /'PJIMKB+FontAwesome', 'Encoding': <PDFObjRef:34>, 'FirstChar': 17, 'FontDescriptor': <PDFObjRef:39>, 'LastChar': 189, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:35>}
+"2022-03-21 10:05:36" INFO --> get_font: create: objid=24, spec={'BaseFont': /'VCPWAV+Lato-Bold', 'Encoding': <PDFObjRef:30>, 'FirstChar': 28, 'FontDescriptor': <PDFObjRef:40>, 'LastChar': 121, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:38>}
+"2022-03-21 10:05:36" INFO --> get_font: create: objid=27, spec={'BaseFont': /'DCAOTC+Lato-Regular', 'Encoding': <PDFObjRef:32>, 'FirstChar': 136, 'FontDescriptor': <PDFObjRef:41>, 'LastChar': 136, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:33>}
+"2022-03-21 10:05:36" INFO --> get_font: create: objid=28, spec={'BaseFont': /'DCAOTC+Lato-Regular', 'Encoding': <PDFObjRef:30>, 'FirstChar': 21, 'FontDescriptor': <PDFObjRef:41>, 'LastChar': 122, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:31>}
+"2022-03-21 10:05:37" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:05:37" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:05:37" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:05:37" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:05:37" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:05:37" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:06:06" INFO --> Manual build specified. Building O*NET CompetencyOntology via direct querying from O*NET site, or local cache.
+"2022-03-21 10:06:06" INFO --> Processing Content Model Reference
+"2022-03-21 10:06:06" INFO --> Processing skills set
+"2022-03-21 10:06:08" INFO --> Found 95288 entries for lookup
+"2022-03-21 10:06:39" INFO --> Found 95288 entries for lookup
+"2022-03-21 10:06:47" INFO --> xref found: pos=b'216'
+"2022-03-21 10:06:47" INFO --> read_xref_from: start=216, token=4
+"2022-03-21 10:06:47" INFO --> xref stream: objid=(3, 41), fields=1,2,1
+"2022-03-21 10:06:47" INFO --> trailer: {'Type': /'XRef', 'Length': 56, 'Filter': /'FlateDecode', 'DecodeParms': {'Columns': 4, 'Predictor': 12}, 'W': [1, 2, 1], 'Index': [3, 41], 'Info': <PDFObjRef:1>, 'Root': <PDFObjRef:5>, 'Size': 44, 'Prev': 87184, 'ID': [b"}\xcf\x81\x8bc\xda\xc5vN\xb2\xc8\x14'\xea\xc6\xe4", b'J\x99\xaf\xf0B"Y\xdc\xbdF$[[\xfe:l']}
+"2022-03-21 10:06:47" INFO --> read_xref_from: start=87184, token=2
+"2022-03-21 10:06:47" INFO --> xref stream: objid=(0, 3), fields=1,3,1
+"2022-03-21 10:06:47" INFO --> trailer: {'Type': /'XRef', 'Length': 23, 'Filter': /'FlateDecode', 'DecodeParms': {'Columns': 5, 'Predictor': 12}, 'W': [1, 3, 1], 'Size': 3, 'ID': [b"}\xcf\x81\x8bc\xda\xc5vN\xb2\xc8\x14'\xea\xc6\xe4", b'J\x99\xaf\xf0B"Y\xdc\xbdF$[[\xfe:l']}
+"2022-03-21 10:06:47" INFO --> Pages: Kids=[<PDFObjRef:8>]
+"2022-03-21 10:06:47" INFO --> Page: {'Annots': [<PDFObjRef:17>, <PDFObjRef:18>, <PDFObjRef:19>, <PDFObjRef:20>], 'Contents': <PDFObjRef:9>, 'MediaBox': [0, 0, 612, 1008], 'Parent': <PDFObjRef:29>, 'Resources': <PDFObjRef:21>, 'Type': /'Page'}
+"2022-03-21 10:06:47" INFO --> Processing page: <PDFPage: Resources={'ColorSpace': <PDFObjRef:15>, 'ExtGState': <PDFObjRef:13>, 'Font': {'F38': <PDFObjRef:25>, 'F39': <PDFObjRef:26>, 'F48': <PDFObjRef:24>, 'F52': <PDFObjRef:27>, 'F53': <PDFObjRef:28>}, 'Pattern': <PDFObjRef:14>, 'ProcSet': [/'PDF', /'Text']}, MediaBox=[0, 0, 612, 1008]>
+"2022-03-21 10:06:47" INFO --> render_contents: resources={'ColorSpace': <PDFObjRef:15>, 'ExtGState': <PDFObjRef:13>, 'Font': {'F38': <PDFObjRef:25>, 'F39': <PDFObjRef:26>, 'F48': <PDFObjRef:24>, 'F52': <PDFObjRef:27>, 'F53': <PDFObjRef:28>}, 'Pattern': <PDFObjRef:14>, 'ProcSet': [/'PDF', /'Text']}, streams=[<PDFStream(9): raw=8814, {'Filter': /'FlateDecode', 'Length': 8813}>], ctm=(1, 0, 0, 1, 0, 0)
+"2022-03-21 10:06:47" INFO --> get_font: create: objid=25, spec={'BaseFont': /'PJIMKB+FontAwesome', 'Encoding': <PDFObjRef:36>, 'FirstChar': 91, 'FontDescriptor': <PDFObjRef:39>, 'LastChar': 91, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:37>}
+"2022-03-21 10:06:47" INFO --> get_font: create: objid=26, spec={'BaseFont': /'PJIMKB+FontAwesome', 'Encoding': <PDFObjRef:34>, 'FirstChar': 17, 'FontDescriptor': <PDFObjRef:39>, 'LastChar': 189, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:35>}
+"2022-03-21 10:06:47" INFO --> get_font: create: objid=24, spec={'BaseFont': /'VCPWAV+Lato-Bold', 'Encoding': <PDFObjRef:30>, 'FirstChar': 28, 'FontDescriptor': <PDFObjRef:40>, 'LastChar': 121, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:38>}
+"2022-03-21 10:06:47" INFO --> get_font: create: objid=27, spec={'BaseFont': /'DCAOTC+Lato-Regular', 'Encoding': <PDFObjRef:32>, 'FirstChar': 136, 'FontDescriptor': <PDFObjRef:41>, 'LastChar': 136, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:33>}
+"2022-03-21 10:06:47" INFO --> get_font: create: objid=28, spec={'BaseFont': /'DCAOTC+Lato-Regular', 'Encoding': <PDFObjRef:30>, 'FirstChar': 21, 'FontDescriptor': <PDFObjRef:41>, 'LastChar': 122, 'Subtype': /'Type1', 'Type': /'Font', 'Widths': <PDFObjRef:31>}
+"2022-03-21 10:06:47" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:06:47" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:06:47" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:06:47" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:06:47" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17
+"2022-03-21 10:06:47" INFO --> undefined: <PDFType1Font: basefont='PJIMKB+FontAwesome'>, 17

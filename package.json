@@ -1,0 +1,38 @@
+{
+  "name": "skill-mapout-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "env-cmd": "^10.1.0",
+    "express": "^4.17.3",
+    "libphonenumber-js": "^1.9.14",
+    "mongoose": "^6.3.0",
+    "node-fetch": "^2.6.7",
+    "nodemon": "^2.0.15",
+    "python-shell": "^3.0.0",
+    "redis": "^3.1.2",
+    "request": "^2.83.0",
+    "textract": "^2.2.0",
+    "url-regex": "^5.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/mapout/mapout-skills.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/mapout/mapout-skills/issues"
+  },
+  "homepage": "https://gitlab.com/mapout/mapout-skills#readme",
+  "description": ""
+}

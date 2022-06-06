@@ -1,0 +1,17 @@
+stages:
+  - deploy
+
+deploy:
+  image: alpine:latest
+  stage: deploy
+  tags:
+    - deployment
+  script:
+    - chmod og= $ID_RSA
+    - apk update && apk add openssh-client
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo sh deploy/mapout-skills.sh"
+  environment:
+    name: production
+    url: http://$SERVER_IP
+  only:
+    - master

@@ -1,0 +1,2 @@
+*.bin filter=lfs diff=lfs merge=lfs -text
+src/controllers/score/skills/skill2vec.bin filter=lfs diff=lfs merge=lfs -text

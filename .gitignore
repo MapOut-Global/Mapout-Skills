@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+.env
+src/controllers/score/skills/*.bin
+/src/controllers/emsi/test-emsi.js
+src/controllers/score/skills/test.py
+src/controllers/emsi/Test.js
+ecosystem.config.js
+test.*
+src/controllers/score/skills/skill2vec_test.py
+/resources/temp/resume
