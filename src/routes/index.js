@@ -16,7 +16,8 @@ const offline = require("../controllers/resume-parser/Parser_sample.js");
 const professiontoskill = require("../controllers/professiontoskill/professiontoskill.js")
 //const trial = require("../controllers/resume-parser/trial.js");
 //const skill2vec = require("../controllers/score/skills/skill2vec.js");
-const checkactionverb = require("../controllers/check-action-verbs/action-verbs.js")
+const checkactionverb = require("../controllers/check-action-verbs/action-verbs.js");
+const { search } = require("../controllers/professiontoskill/professionSearch");
 
 router.get("/", (req, res) => {
   res.send("Mapout Skills application");
@@ -37,5 +38,7 @@ router.post("/api/sample", offline);
 //router.post("/api/skill2vec", skill2vec)
 router.post("/api/resumeParser", resumeParser);
 router.get("/api/checkactionverb", checkactionverb)
+
+router.get("/api/professions/search",search)
 
 module.exports = router;

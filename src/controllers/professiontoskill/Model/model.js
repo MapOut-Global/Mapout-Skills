@@ -18,5 +18,7 @@ const dataSchema = new mongoose.Schema({
         type: Object
     }
 })
+dataSchema.index({'profession': "text"})
 
-module.exports = mongoose.model('professiontoskill', dataSchema,"professiontoskill")
+const ProfessionToSkill = mongoose.model('professiontoskill', dataSchema,"professiontoskill")
+module.exports = ProfessionToSkill;
