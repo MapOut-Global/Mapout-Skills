@@ -17,8 +17,9 @@ const dataSchema = new mongoose.Schema({
         required: false,
         type: Object
     }
-})
-dataSchema.index({'profession': "text"})
+});
+
+// dataSchema.index({'profession': "text"}, {default_language: 'english'});
 
 const ProfessionToSkill = mongoose.model('professiontoskill', dataSchema,"professiontoskill")
 module.exports = ProfessionToSkill;
