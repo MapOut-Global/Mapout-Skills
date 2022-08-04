@@ -9,3 +9,6 @@ ecosystem.config.js
 test.*
 src/controllers/score/skills/skill2vec_test.py
 /resources/temp/resume
+
+.idea/
+.vscode/
