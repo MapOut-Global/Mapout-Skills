@@ -26,7 +26,7 @@ def flask_app():
 @app.route("/search",methods=["GET"])
 def search_without_parameters():
   args = request.args
-  query = args.get("query", default="", type=str)
+  query = args.get("query", default="college guidance career guidance interview preparation job search guidance", type=str)
 
   result = collection.aggregate([
   {
