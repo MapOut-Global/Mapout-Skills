@@ -1,4 +1,4 @@
-from flask import Flask
+from datetime import datetime
 from pymongo import MongoClient
 import pandas as pd
 import nltk
@@ -15,6 +15,9 @@ from dotenv import load_dotenv
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import re
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 lemmatizer = WordNetLemmatizer()
 
@@ -99,13 +102,6 @@ def get_talent_board_details(x):
   except TypeError:
     return ''
 
-app = Flask(__name__)
-
-@app.route("/")
-def flask_app():
-  return "Mapout Skills Flask Application"
-
-@app.route("/normalize-mentor-data",methods=["PUT"])
 def normalize_mentor_data():
     # main method to normalize data, generate corpus for individual fields and upload to mentorDetails collectionx
     try :
@@ -237,12 +233,13 @@ def normalize_mentor_data():
         mentorDetailscollection.remove()
         mentorDetailscollection.insert_many(profileData)
     
-        obj = {'status': 200}
-        return obj
+        status = 'success'
+        return status
 
     except :
-        obj = {'status': 500}   
-        return obj
+        status = 'failed'
+        return status
 
-if __name__ == '__main__':
-    app.run(host='localhost', port=8081)
+normalization_status = normalize_mentor_data()
+
+print("Mentor Details normalization status : {} at {}".format(normalization_status,datetime.now()))
