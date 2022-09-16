@@ -6,12 +6,10 @@ from dotenv import load_dotenv
 import os #provides ways to access the Operating System and allows us to read the environment variables
 
 load_dotenv()
-URL = os.getenv("MONGODB_STAGING_URL")
+URI = os.getenv("MONGODB_STAGING_URI")
 
-
-client = MongoClient()
 #point the client at mongo URI
-client = MongoClient(URL)
+client = MongoClient(URI)
 
 db = client['mapout-staging']
 #select the collection within the database
