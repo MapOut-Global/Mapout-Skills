@@ -1,7 +1,7 @@
+import json
 from flask import Flask, request
 from pymongo import MongoClient
-import pandas as pd
-
+from bson import json_util
 from dotenv import load_dotenv
 import os #provides ways to access the Operating System and allows us to read the environment variables
 
@@ -15,6 +15,18 @@ db = client['mapout-staging']
 #select the collection within the database
 collection = db.mentorDetails
 
+import re
+def remove_oid(string):
+  # function that replace $oid to _id from collection.find() cursor
+  while True:
+      pattern = re.compile('{\s*"\$oid":\s*(\"[a-z0-9]{1,}\")\s*}')
+      match = re.search(pattern, string)
+      if match:
+          string = string.replace(match.group(0), match.group(1))
+      else:
+          return string
+
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -24,7 +36,22 @@ def flask_app():
 @app.route("/search",methods=["GET"])
 def search_without_parameters():
   args = request.args
+  
+  # query can be passed as an argument
   query = args.get("query", default="college guidance career guidance interview preparation job search guidance", type=str)
+  
+  # page(number) and perPage can be passed as arguments
+  page = args.get("page",default=1,type=int)
+  perPage = args.get("perPage",default=12,type=int)
+  
+  # based on the above arguments, the default value of skip and limit can be decided
+  # or skip and limit can be separately passed as arguments
+  skip = args.get("skip",default=((page-1)*perPage),type=int)
+  limit = args.get("limit",default=page*perPage,type=int)
+  
+  # field name to sort by and the order of sorting can be passed as argument
+  sortBy = args.get("sortBy",default="score", type=str)
+  sortOrder = args.get("sortOrder",default=-1,type=int)
 
   result = collection.aggregate([
   {
@@ -72,26 +99,67 @@ def search_without_parameters():
             "score": { "boost": { "value": 1 } }  
          }
 
-        }]
+        }
+        
+        ]
       }
     }
   },
-  
+
+  {"$lookup" : {
+            "from": "users",
+            "localField": "user_id",
+            "foreignField": "_id",
+            "as": "user"
+            }
+  },
+
+  { "$lookup": {
+            "from": "experiences",
+            "localField": "user.experience",
+            "foreignField": "_id",
+            "as": "experience"
+            },
+  },
+
+  { "$unwind" :  "$user" },
+
   {
     "$project": {
       "user_id": 1,
       "name": 1,
-      "highlights": { "$meta": "searchHighlights" }
+      "mentorPrice":1,
+      "experience.company_name":1,
+      "experience.designation":1,
+      "mentorFor":"$user.mentorFor.name",
+      "mentorPrice":{"$toInt":"$user.mentorPrice"},
+      "about":"$user.about",
+      "current_location":"$user.current_location",
+      "profilePic":"$user.profilePic",
+      "talent_board":"$user.talent_board",
+      "rating":"$user.rating",
+      "score": { "$meta": "searchScore" },
+      } 
+  },
 
-    }
-  }
+  {
+    "$sort" : { sortBy : sortOrder }
+  },
+
+  {
+    "$limit" : limit
+  },
+
+  {
+    "$skip" : skip
+  },
 ])
-  
-  df = pd.DataFrame(result)
-  df['user_id'] = df['user_id'].apply(lambda x : str(x))
-  mentors = (list(df['user_id']))
-  paginated_mentors = [mentors[i:i+10] for i in range(0, len(mentors), 10)]
-  obj = {'mentors' : (paginated_mentors)}
+  #print(list(result))
+  list_cur = list(result)
+  #print(len(list_cur))
+  json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
+  #print(json_data)
+  obj = {'mentors' : (json_data)}
   return obj
 
 if __name__ == '__main__':
