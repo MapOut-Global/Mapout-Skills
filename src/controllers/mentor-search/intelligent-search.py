@@ -7,11 +7,12 @@ import os #provides ways to access the Operating System and allows us to read th
 
 load_dotenv()
 URI = os.getenv("MONGODB_STAGING_URI")
+database = os.getenv("DATABASE")
 
 #point the client at mongo URI
 client = MongoClient(URI)
 
-db = client['mapout-staging']
+db = client[database]
 #select the collection within the database
 collection = db.mentorDetails
 
