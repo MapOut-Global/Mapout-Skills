@@ -107,7 +107,7 @@ def normalize_mentor_data():
     try :
         res = users.aggregate([
             
-            {"$match": {"mentor_status" : 2}},
+            {"$match": {"mentor_status" : 2, "candidate_dashboard_visibility": True}},
     
                 { "$lookup": {
             "from": "educations",
@@ -239,6 +239,8 @@ def normalize_mentor_data():
     except :
         status = 'failed'
         return status
+
+print("Mentor Details normalization status : started at {}".format(datetime.now()))
 
 normalization_status = normalize_mentor_data()
 
