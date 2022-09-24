@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "nodemon index.js"
+    "start": "node index.js",
+    "start:dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -17,15 +18,15 @@
     "express": "^4.17.3",
     "libphonenumber-js": "^1.9.14",
     "mongoose": "^6.3.0",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",
-    "nodemon": "^2.0.15",
+    "nodemon": "^2.0.20",
     "python-shell": "^3.0.0",
     "redis": "^3.1.2",
     "request": "^2.83.0",
     "textract": "^2.2.0",
     "url-regex": "^5.0.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.com/mapout/mapout-skills.git"

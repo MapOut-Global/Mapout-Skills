@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "watch": [
+    "*.js",
+    "documentation/**/*.yaml"
+  ],
+  "exec": "npm run start"
+}
