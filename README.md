@@ -57,5 +57,14 @@ In the project directory, you can run:
 ### `npm start` 
 to download the dependencies on node js
 
-### `python3 -m pip install requirements.txt`
+### `python3 -m pip install -r requirements.txt`
 ( In case your python version < 3.4, you may need to download and install "pip" manually)
+
+If any dependency is incompatible with your system,
+On Windows: you can use the -a flag as 
+### `python3 -m pip install -a -r requirements.txt`
+
+On Linux : use any of the commands 
+###`cat requirements.txt | xargs -n 1 pip install` 
+or 
+###`cat requirements.txt | xargs -n 1 python3 -m pip install`
