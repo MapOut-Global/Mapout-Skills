@@ -66,5 +66,7 @@ On Windows: you can use the -a flag as
 
 On Linux : use any of the commands 
 ###`cat requirements.txt | xargs -n 1 pip install` 
+
 or 
+
 ###`cat requirements.txt | xargs -n 1 python3 -m pip install`
