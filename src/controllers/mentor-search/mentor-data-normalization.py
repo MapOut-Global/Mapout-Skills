@@ -231,9 +231,69 @@ def normalize_mentor_data():
         
         # connect the new collection, remove previous data and insert new mentor data
         mentorDetailscollection = db['mentorDetails']
-        mentorDetailscollection.remove()
+        
+        # delete the existing mentor Data and replace with the current mentor Data
+        mentorDetailscollection.delete_many({})
         mentorDetailscollection.insert_many(profileData)
-    
+
+        # extract data from relevant fields to build autocomplete suggestions
+        autocompleteresult = mentorDetailscollection.aggregate([
+
+              {"$lookup" : {
+                        "from": "users",
+                        "localField": "user_id",
+                        "foreignField": "_id",
+                        "as": "user"
+                        }
+              },
+
+              { "$lookup": {
+                        "from": "experiences",
+                        "localField": "user.experience",
+                        "foreignField": "_id",
+                        "as": "experience"
+                        },
+              },
+
+              { "$unwind" :  "$user" },
+              { "$unwind" :  "$experience" },
+              { "$unwind" :  "$education" },
+
+
+              {
+                "$project": {
+                  "_id":0,  
+                  "name": 1,
+                  "field_of_work":1,
+                  "industry":1,
+                  "company_name" : "$experience.company_name",
+                  "designation": "$experience.designation",
+                  "degree": "$education.degree",
+                  "university_name": "$education.university_name",
+                  "specialization": "$education.specialization"
+                  } 
+              },
+        ])
+
+        # change the format from {key:value}, to {field_name:key, value:value} for better suggestions
+        fields = list(autocompleteresult)
+        
+        autocomplete = []
+
+        # iterate through the array of {key:value} objects and 
+        # append to a new array of {field_name:key, value:value} objects
+        for field in fields :
+          for kv in field.items():
+            pair = {'field_name' : kv[0],'value' : kv[1]}
+            autocomplete.append(pair)
+        
+        # connect to the collection autocomplete-values 
+        autocompleteCollection = db['autocomplete-values']
+
+        # delete the existing autocomplete data and replace with the current autocomplete data
+        autocompleteCollection.delete_many({})
+        autocompleteCollection.insert_many(autocomplete)
+
         status = 'success'
         return status
 
