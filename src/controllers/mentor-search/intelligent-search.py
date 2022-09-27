@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request
+from flask import Flask,request
 from pymongo import MongoClient
 from bson import json_util
 from dotenv import load_dotenv
@@ -7,6 +7,7 @@ import os #provides ways to access the Operating System and allows us to read th
 
 load_dotenv()
 URI = os.getenv("MONGODB_STAGING_URI")
+#URI = 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging'
 
 #point the client at mongo URI
 client = MongoClient(URI)
@@ -14,6 +15,7 @@ client = MongoClient(URI)
 db = client['mapout-staging']
 #select the collection within the database
 collection = db.mentorDetails
+autocomplete_values = db.autocompleteValues
 
 import re
 def remove_oid(string):
@@ -161,6 +163,33 @@ def search_without_parameters():
   #print(json_data)
   obj = {'mentors' : (json_data)}
   return obj
+
+
+
+@app.route("/autocomplete",methods=["GET"])
+def autocomplete():
+   args = request.args
+  
+   # query can be passed as an argument
+   query = args.get("query", type=str)
+
+   result = autocomplete_values.aggregate([
+    { 
+      "$search": {
+                  "index": "autocomplete",
+                  "autocomplete": {
+                    "query": query,
+                    "path": "value"
+                    }
+                }
+    }
+  ])
+   list_cur = list(result)
+   json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
+   obj = {'data' : (json_data)}
+   return  obj
+
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5051)
