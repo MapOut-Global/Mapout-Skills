@@ -2,7 +2,8 @@ from datetime import datetime
 from pymongo import MongoClient
 import pandas as pd
 import nltk
-
+import numpy as np
+import json
 # run the below commands within the script to install libraries first time on local 
 # on server no need to run these commands within the script
 #nltk.download('stopwords')
@@ -37,6 +38,11 @@ users = db.users
 def flatten(l):
     return [item for sublist in l for item in sublist]
 
+def pre_process(string):
+      text = string.lower()
+      text = text.strip()
+      return text
+    
 def text_preprocessing(text):
   # method to remove stop words and non alphanumeric characters from text
   text = re.sub('[^A-Za-z0-9]+', ' ',text)
@@ -238,7 +244,6 @@ def normalize_mentor_data():
 
         # extract data from relevant fields to build autocomplete suggestions
         autocompleteresult = mentorDetailscollection.aggregate([
-
               {"$lookup" : {
                         "from": "users",
                         "localField": "user_id",
@@ -255,10 +260,14 @@ def normalize_mentor_data():
                         },
               },
 
-              { "$unwind" :  "$user" },
-              { "$unwind" :  "$experience" },
-              { "$unwind" :  "$education" },
+              { "$unwind" :  {"path":"$user","preserveNullAndEmptyArrays":True }
+              },
 
+              { "$unwind" :  {"path":"$experience","preserveNullAndEmptyArrays":True }
+              },
+
+              { "$unwind" :  {"path":"$education","preserveNullAndEmptyArrays":True }
+              },
 
               {
                 "$project": {
@@ -273,6 +282,7 @@ def normalize_mentor_data():
                   "specialization": "$education.specialization"
                   } 
               },
+              
         ])
 
         # change the format from {key:value}, to {field_name:key, value:value} for better suggestions
@@ -284,15 +294,26 @@ def normalize_mentor_data():
         # append to a new array of {field_name:key, value:value} objects
         for field in fields :
           for kv in field.items():
-            pair = {'field_name' : kv[0],'value' : kv[1]}
-            autocomplete.append(pair)
-        
+            if (pre_process(kv[1])==""):
+              pass
+            else :
+              pair = {'field_name' : kv[0],'value' : pre_process(kv[1])} 
+              #. strip() trims the whitespaces making the data more clean and avoids duplication
+              autocomplete.append(pair)
+           
+        unique_autocomplete = []
+
+        # getting only the unique key value pairs for autocomplete
+        for dictionary in autocomplete:
+          if dictionary not in unique_autocomplete:
+            unique_autocomplete.append(dictionary)
+
         # connect to the collection autocomplete-values 
-        autocompleteCollection = db['autocomplete-values']
+        autocompleteCollection = db['autocompleteValues']
 
         # delete the existing autocomplete data and replace with the current autocomplete data
         autocompleteCollection.delete_many({})
-        autocompleteCollection.insert_many(autocomplete)
+        autocompleteCollection.insert_many((unique_autocomplete))
 
         status = 'success'
         return status
