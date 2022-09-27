@@ -25,11 +25,12 @@ import os #provides ways to access the Operating System and allows us to read th
 
 load_dotenv()
 URI = os.getenv("MONGODB_STAGING_URI")
+database = os.getenv("DATABASE")
 
 #point the client at mongo URI
 client = MongoClient(URI)
 
-db = client['mapout-staging']
+db = client[database]
 #select the collection within the database
 users = db.users
 
@@ -107,7 +108,7 @@ def normalize_mentor_data():
     try :
         res = users.aggregate([
             
-            {"$match": {"mentor_status" : 2}},
+            {"$match": {"mentor_status" : 2, "candidate_dashboard_visibility": True}},
     
                 { "$lookup": {
             "from": "educations",
@@ -239,6 +240,8 @@ def normalize_mentor_data():
     except :
         status = 'failed'
         return status
+
+print("Mentor Details normalization status : started at {}".format(datetime.now()))
 
 normalization_status = normalize_mentor_data()
 
