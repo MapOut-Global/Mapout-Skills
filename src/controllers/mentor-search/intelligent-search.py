@@ -172,6 +172,9 @@ def autocomplete():
   
    # query can be passed as an argument
    query = args.get("query", type=str)
+   skip = args.get("skip",type=int)
+   limit = args.get("limit",type=int)
+
 
    result = autocomplete_values.aggregate([
     { 
@@ -182,7 +185,14 @@ def autocomplete():
                     "path": "value"
                     }
                 }
+    },
+    {
+      "$limit" : limit
+    },
+    {
+      "$skip": skip
     }
+
   ])
    list_cur = list(result)
    json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
