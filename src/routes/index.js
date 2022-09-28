@@ -19,6 +19,7 @@ const professiontoskill = require("../controllers/professiontoskill/professionto
 const checkactionverb = require("../controllers/check-action-verbs/action-verbs.js");
 const { search } = require("../controllers/professiontoskill/professionSearch");
 
+
 router.get("/", (req, res) => {
   res.send("Mapout Skills application");
 });
@@ -40,5 +41,6 @@ router.post("/api/resumeParser", resumeParser);
 router.get("/api/checkactionverb", checkactionverb)
 
 router.get("/api/professions/search",search)
+
 
 module.exports = router;
