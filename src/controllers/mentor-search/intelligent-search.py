@@ -37,7 +37,7 @@ app = Flask(__name__)
 def flask_app():
   return "Mapout Skills Flask Application"
 
-@app.route("/search",methods=["GET"])
+@app.route("/mentors-search",methods=["GET"])
 def search_without_parameters():
   args = request.args
   
@@ -57,6 +57,7 @@ def search_without_parameters():
   sortBy = args.get("sortBy",default="score", type=str)
   sortOrder = args.get("sortOrder",default=-1,type=int)
 
+  # @TODO: add OpenAPI documentation
   result = collection.aggregate([
   {
     "$search": {

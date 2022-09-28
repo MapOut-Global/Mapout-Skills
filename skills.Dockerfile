@@ -1,4 +1,7 @@
-#FROM nikolaik/python-nodejs:python3.9-nodejs14-alpine
+#
+# Python with Node.js bundled images
+# https://hub.docker.com/r/nikolaik/python-nodejs
+#
 FROM nikolaik/python-nodejs:python3.9-nodejs14
 
 WORKDIR /home/app
