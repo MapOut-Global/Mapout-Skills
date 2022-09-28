@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request
+from flask import Flask,request
 from pymongo import MongoClient
 from bson import json_util
 from dotenv import load_dotenv
@@ -19,6 +19,7 @@ client = MongoClient(URI)
 db = client[database]
 #select the collection within the database
 collection = db.mentorDetails
+autocomplete_values = db.autocompleteValues
 
 def remove_oid(string):
   # function that replace $oid to _id from collection.find() cursor
@@ -166,6 +167,43 @@ def search_without_parameters():
   #print(json_data)
   obj = {'mentors' : (json_data)}
   return obj
+
+
+
+@app.route("/autocomplete",methods=["GET"])
+def autocomplete():
+   args = request.args
+  
+   # query can be passed as an argument
+   query = args.get("query", type=str)
+   skip = args.get("skip",type=int)
+   limit = args.get("limit",type=int)
+
+
+   result = autocomplete_values.aggregate([
+    { 
+      "$search": {
+                  "index": "autocomplete",
+                  "autocomplete": {
+                    "query": query,
+                    "path": "value"
+                    }
+                }
+    },
+    {
+      "$limit" : limit
+    },
+    {
+      "$skip": skip
+    }
+
+  ])
+   list_cur = list(result)
+   json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
+   obj = {'data' : (json_data)}
+   return  obj
+
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port=port)
