@@ -4,10 +4,14 @@ from pymongo import MongoClient
 from bson import json_util
 from dotenv import load_dotenv
 import os #provides ways to access the Operating System and allows us to read the environment variables
+import re
 
 load_dotenv()
 URI = os.getenv("MONGODB_STAGING_URI")
 database = os.getenv("DATABASE")
+port = os.getenv("PORT")
+
+print("Target port: " + port)
 
 #point the client at mongo URI
 client = MongoClient(URI)
@@ -17,7 +21,6 @@ db = client[database]
 collection = db.mentorDetails
 autocomplete_values = db.autocompleteValues
 
-import re
 def remove_oid(string):
   # function that replace $oid to _id from collection.find() cursor
   while True:
@@ -35,7 +38,7 @@ app = Flask(__name__)
 def flask_app():
   return "Mapout Skills Flask Application"
 
-@app.route("/search",methods=["GET"])
+@app.route("/mentors-search",methods=["GET"])
 def search_without_parameters():
   args = request.args
   
@@ -55,6 +58,7 @@ def search_without_parameters():
   sortBy = args.get("sortBy",default="score", type=str)
   sortOrder = args.get("sortOrder",default=-1,type=int)
 
+  # @TODO: add OpenAPI documentation
   result = collection.aggregate([
   {
     "$search": {
@@ -202,4 +206,4 @@ def autocomplete():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5051)
+    app.run(host='localhost', port=port)
