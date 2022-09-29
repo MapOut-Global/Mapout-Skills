@@ -1,4 +1,5 @@
 import json
+import ast
 from flask import Flask, request
 from pymongo import MongoClient
 from bson import json_util
@@ -26,6 +27,9 @@ def remove_oid(string):
           string = string.replace(match.group(0), match.group(1))
       else:
           return string
+    
+def flatten(l):
+    return [item for sublist in l for item in sublist]
 
 def get_subpath(paths):
   # function that returns subpaths where weights will be lower based on search parameteres
@@ -90,23 +94,44 @@ def flask_app():
 
 @app.route("/search",methods=["GET"])
 def search_without_parameters():
-  args = request.args
+
+  input = (request.get_json(force=True))
+  try: 
+    query = input['query']
+  except KeyError:
+    query = "college guidance career guidance interview preparation job search guidance"
   
-  # query can be passed as an argument
-  query = args.get("query", default="college guidance career guidance interview preparation job search guidance", type=str)
-  
-  # page(number) and perPage can be passed as arguments
-  page = args.get("page",default=1,type=int)
-  perPage = args.get("perPage",default=12,type=int)
-  
-  # based on the above arguments, the default value of skip and limit can be decided
-  # or skip and limit can be separately passed as arguments
-  skip = args.get("skip",default=((page-1)*perPage),type=int)
-  limit = args.get("limit",default=page*perPage,type=int)
-  
-  # field name to sort by and the order of sorting can be passed as argument
-  sortBy = args.get("sortBy",default="score", type=str)
-  sortOrder = args.get("sortOrder",default=-1,type=int)
+  try:
+    page = input['page']
+  except KeyError:
+    page = 1
+
+  try:
+    perPage = input['perPage']
+  except KeyError:
+    perPage = 12
+
+  try: 
+    skip = input['skip']
+  except KeyError:
+    skip = 0
+
+  try: 
+    limit = input['limit']
+  except KeyError:
+    limit = page*perPage
+
+  try: 
+    sortBy = input['sortBy']
+  except KeyError:
+    sortBy = "score"
+
+  try: 
+    sortOrder = input['sortOrder']
+  except KeyError:
+    sortOrder = -1
+
+
 
   result = collection.aggregate([
   {
@@ -196,53 +221,132 @@ def search_without_parameters():
       "score": { "$meta": "searchScore" },
       } 
   },
-
   {
-    "$sort" : { sortBy : sortOrder }
+  "$sort" : {sortBy : sortOrder}
+  },
+  {
+    "$group":
+    {
+      "_id":"null",
+      "count":{"$sum":1},
+      "data":{"$push":"$$ROOT"}
+    }
+    
   },
 
   {
-    "$limit" : limit
+    "$project": {
+      "_id":0,
+      "count":1,
+      "data":{
+      "$slice": ['$data', skip, limit],
+      }
+    }
   },
-
-  {
-    "$skip" : skip
-  },
+ 
 ])
   #print(list(result))
-  list_cur = list(result)
   #print(len(list_cur))
-  json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
-  #print(json_data)
-  obj = {'mentors' : (json_data)}
-  return obj
-
+  
+  json_data = json.loads(remove_oid(json_util.dumps(list(result))))
+  print(json_data)
+  obj = {'data' : json_data}
+  return obj['data'][0]
+  
 
 @app.route("/weighted-search",methods=["GET"])
 def weighted_search():
-  args = request.args
   
-  # query can be passed as an argument
-  query = args.get("query", default="college guidance career guidance interview preparation job search guidance", type=str)
+  input = (request.get_json(force=True))
+  try: 
+    query = input['query']
+  except KeyError:
+    query = {"corpus":"college guidance career guidance interview preparation job search guidance"}
   
-  # path can be specified as an argument for weighted search
-  paths = args.get("paths",default=['corpus'],type=list)
+  try:
+    page = input['page']
+  except KeyError:
+    page = 1
 
-  # page(number) and perPage can be passed as arguments
-  page = args.get("page",default=1,type=int)
-  perPage = args.get("perPage",default=12,type=int)
-  
-  # based on the above arguments, the default value of skip and limit can be decided
-  # or skip and limit can be separately passed as arguments
-  skip = args.get("skip",default=((page-1)*perPage),type=int)
-  limit = args.get("limit",default=page*perPage,type=int)
-  
-  # field name to sort by and the order of sorting can be passed as argument
-  sortBy = args.get("sortBy",default="score", type=str)
-  sortOrder = args.get("sortOrder",default=-1,type=int)
+  try:
+    perPage = input['perPage']
+  except KeyError:
+    perPage = 12
 
-  subpaths = get_subpath(paths)
-  subgroups = get_subgroup(paths)
+  try: 
+    skip = input['skip']
+  except KeyError:
+    skip = 0
+
+  try: 
+    limit = input['limit']
+  except KeyError:
+    limit = page*perPage
+
+  try: 
+    sortBy = input['sortBy']
+  except KeyError:
+    sortBy = "score"
+
+  try: 
+    sortOrder = input['sortOrder']
+  except KeyError:
+    sortOrder = -1
+
+  pipelines = []
+  querycorpus = ""
+
+  # iterate through the json object of query
+  for kv in query.items():
+    
+    # now our query is divided as kv={"path":"value"} in each iteration
+    # kv[0] gives us path, kv[1] gives us value
+    subpaths = get_subpath(kv[0])
+    subgroups = get_subgroup(kv[0])
+      
+    condition = [
+          {"text": {
+            "query": kv[1],
+            "path": kv[0],
+            "score": { "boost": { "value": 10 } }
+          }},
+        
+         {"text": {
+            "query": kv[1],
+            "path": subpaths, 
+            "score": { "boost": { "value": 7 } }  
+          }},
+         
+          {"text": {
+            "query": kv[1],
+            "path": subgroups,
+            "score": { "boost": { "value": 5 } }  
+          }}
+    ]
+
+    # in every iteration we add the above condition array to our pipelines array
+    pipelines.append(condition)
+    # also we create a querycorpus that contains all the query keywords
+    querycorpus = querycorpus + kv[1] + " "
+    
+  # flatten lowers down the dimension of nested arrays ( just like spread in js )
+  pipeline = (flatten(pipelines))
+  
+  # now that we have a flat array of dictionaries, we will push them into a new dictionary
+  final_pipeline = {}
+  for x in range(len(pipeline)):
+    final_pipeline.update(pipeline[x])
+
+  #print(new_pipeline)
+  
+  # and we define the corpus condition based on the query corpus
+  corpus_condition = {
+          "text": {
+            "query": querycorpus,
+            "path": "corpus"
+          }
+        }
+  
 
   result = collection.aggregate([
   {
@@ -252,41 +356,10 @@ def weighted_search():
          "path": "corpus"
          },
       "compound": {
-        "should": [{
-          "text": {
-            "query": query,
-            "path": "corpus"
-          }
-        },
-
-        {
-          "text": {
-            "query": query,
-            "path": paths,
-            "score": { "boost": { "value": 10 } }
-          },
-        
-         "text": {
-            "query": query,
-            "path": subpaths, 
-            "score": { "boost": { "value": 7 } }  
-          },
-         
-          "text": {
-            "query": query,
-            "path": subgroups,
-            "score": { "boost": { "value": 5 } }  
-          },
-         
-         "text": {
-            "query": query,
-            "path": ['corpus'],
-            "score": { "boost": { "value": 1 } }  
-         }
-
-        }
-        
-        ]
+        "should": [
+        (corpus_condition), # documents should have some match in corpus based on entire query corpus 
+        (final_pipeline) # documents will be ranked higher based on the search parameters (weighted)
+        ]  
       }
     }
   },
@@ -328,25 +401,40 @@ def weighted_search():
   },
 
   {
-    "$sort" : { sortBy : sortOrder }
+    "$sort": {sortBy : sortOrder}
+  },
+  
+  {
+    "$group":
+    {
+      "_id":"null",
+      "count":{"$sum":1},
+      "data":{"$push":"$$ROOT"}
+    }
   },
 
   {
-    "$limit" : limit
-  },
-
-  {
-    "$skip" : skip
-  },
-])
-  #print(list(result))
+    "$project": {
+      "_id":0,
+      "count":1,
+      "data":{
+      "$slice": ['$data', skip, limit],
+      }
+    }
+  }
+  ])
+  
   list_cur = list(result)
-  #print(len(list_cur))
+  
   json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
-  #print(json_data)
-  obj = {'mentors' : (json_data)}
-  return obj
-
+  
+  try : 
+    obj = {'data' : (json_data)}
+    return obj['data'][0]
+  
+  except IndexError :
+    obj = {'count':0, 'data':[]}
+    return obj
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5051)
