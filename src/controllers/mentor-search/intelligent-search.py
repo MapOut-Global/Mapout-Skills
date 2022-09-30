@@ -65,7 +65,7 @@ def flask_app():
 class MentorSearch(MethodView):
   @blp.arguments(MentorsSearchRequestSchema, location='query')
   @blp.response(200, MentorProfilesSearchResponseSchema)
-  def get(self, args):
+  def get(self, args: dict):
     """Mentors search"""
     print(args, flush=True)
 
@@ -214,43 +214,16 @@ class MentorSearch(MethodView):
 
 @blp.route('/weighted-search')
 class WeightedSearch(MethodView):
-  @blp.arguments()
-  def get(self, args):
-    input = (request.get_json(force=True))
-    try:
-      query = input['query']
-    except KeyError:
-      query = {"corpus": "college guidance career guidance interview preparation job search guidance"}
+  # experience.designation : react developer, experience.company_name: Microsoft, education.university : IIT, education.degree : B.Tech, education.specialization : Web Development, industry : Software, field_of_work : Finance, corpus : experienced
+  @blp.arguments(MentorsSearchRequestSchema, location='query')
+  def get(self, args: dict):
+    query = args.pop('query', 'college guidance career guidance interview preparation job search guidance')
+    sort_by = args.pop('sortBy')
+    sort_order = args.pop('sort_order')
+    page = args.pop('page')
+    per_page = args.pop('perPage')
 
-    try:
-      page = input['page']
-    except KeyError:
-      page = 1
-
-    try:
-      perPage = input['perPage']
-    except KeyError:
-      perPage = 12
-
-    try:
-      skip = input['skip']
-    except KeyError:
-      skip = 0
-
-    try:
-      limit = input['limit']
-    except KeyError:
-      limit = page * perPage
-
-    try:
-      sortBy = input['sortBy']
-    except KeyError:
-      sortBy = "score"
-
-    try:
-      sortOrder = input['sortOrder']
-    except KeyError:
-      sortOrder = -1
+    skip, limit = transform_pagination_params(page, per_page)
 
     pipelines = []
     querycorpus = ""
@@ -358,7 +331,7 @@ class WeightedSearch(MethodView):
       },
 
       {
-        "$sort": {sortBy: sortOrder}
+        "$sort": {sort_by: sort_order}
       },
 
       {
@@ -382,7 +355,7 @@ class WeightedSearch(MethodView):
     ])
 
     list_cur = list(result)
-
+    # Find MongoDB object id serializer
     json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
 
     try:
@@ -393,15 +366,16 @@ class WeightedSearch(MethodView):
       obj = {'count': 0, 'data': []}
       return obj
 
+
+@blp.route('/autocomplete')
 class MentorsAutocomplete(MethodView):
-  def get(self, args):
-    args = request.args
-
+  def get(self, args: dict):
     # query can be passed as an argument
-    query = args.get("query", type=str)
-    skip = args.get("skip", type=int)
-    limit = args.get("limit", type=int)
+    query = args.get("query")
+    skip = args.get("skip")
+    limit = args.get("limit")
 
+    # TODO: add score sorting
     result = autocomplete_values.aggregate([
       {
         "$search": {

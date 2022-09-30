@@ -28,7 +28,6 @@ class MentorsSearchRequestSchema(ma.Schema):
     if int(normalised_value) not in allowed_values:
       raise ma.ValidationError("Sort order '%s' is not allowed!" % value)
 
-
 class MentorExperienceSchema(ma.Schema):
   company_name = ma.fields.String(required=True)
   designation = ma.fields.String(required=True)
