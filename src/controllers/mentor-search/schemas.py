@@ -28,6 +28,26 @@ class MentorsSearchRequestSchema(ma.Schema):
     if int(normalised_value) not in allowed_values:
       raise ma.ValidationError("Sort order '%s' is not allowed!" % value)
 
+
+class MentorsExperience(ma.Schema):
+  designation = ma.fields.String()
+  companyName = ma.fields.String()
+
+
+class MentorsEducation(ma.Schema):
+  university = ma.fields.String()
+  degree = ma.fields.String()
+
+
+class MentorsWeightedSearchRequestSchema(MentorsSearchRequestSchema):
+  experience = ma.fields.Nested(MentorsExperience)
+  education = ma.fields.Nested(MentorsEducation)
+
+  industry = ma.fields.String()
+  fieldOfWork = ma.fields.String()
+  """General query"""
+  corpus = ma.fields.String()
+
 class MentorExperienceSchema(ma.Schema):
   company_name = ma.fields.String(required=True)
   designation = ma.fields.String(required=True)

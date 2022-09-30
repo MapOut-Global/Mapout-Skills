@@ -21,6 +21,7 @@ from mentor_search_utils import (
 from schemas import (
   MentorsSearchRequestSchema,
   MentorProfilesSearchResponseSchema,
+  MentorsWeightedSearchRequestSchema,
 )
 
 load_dotenv()
@@ -215,11 +216,12 @@ class MentorSearch(MethodView):
 @blp.route('/weighted-search')
 class WeightedSearch(MethodView):
   # experience.designation : react developer, experience.company_name: Microsoft, education.university : IIT, education.degree : B.Tech, education.specialization : Web Development, industry : Software, field_of_work : Finance, corpus : experienced
-  @blp.arguments(MentorsSearchRequestSchema, location='query')
+  @blp.arguments(MentorsWeightedSearchRequestSchema, location='query')
+  @blp.response(200, MentorProfilesSearchResponseSchema)
   def get(self, args: dict):
     query = args.pop('query', 'college guidance career guidance interview preparation job search guidance')
     sort_by = args.pop('sortBy')
-    sort_order = args.pop('sort_order')
+    sort_order = args.pop('sortOrder')
     page = args.pop('page')
     per_page = args.pop('perPage')
 
