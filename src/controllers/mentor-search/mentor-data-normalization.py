@@ -2,7 +2,8 @@ from datetime import datetime
 from pymongo import MongoClient
 import pandas as pd
 import nltk
-
+import numpy as np
+import json
 # run the below commands within the script to install libraries first time on local 
 # on server no need to run these commands within the script
 #nltk.download('stopwords')
@@ -37,6 +38,11 @@ users = db.users
 def flatten(l):
     return [item for sublist in l for item in sublist]
 
+def pre_process(string):
+      text = string.lower()
+      text = text.strip()
+      return text
+    
 def text_preprocessing(text):
   # method to remove stop words and non alphanumeric characters from text
   text = re.sub('[^A-Za-z0-9]+', ' ',text)
@@ -108,7 +114,7 @@ def normalize_mentor_data():
     try :
         res = users.aggregate([
             
-            {"$match": {"mentor_status" : 2, "candidate_dashboard_visibility": True}},
+            {"$match": {"mentor_status" : 2, "profile_visibility": True}},
     
                 { "$lookup": {
             "from": "educations",
@@ -231,9 +237,84 @@ def normalize_mentor_data():
         
         # connect the new collection, remove previous data and insert new mentor data
         mentorDetailscollection = db['mentorDetails']
-        mentorDetailscollection.remove()
+        
+        # delete the existing mentor Data and replace with the current mentor Data
+        mentorDetailscollection.delete_many({})
         mentorDetailscollection.insert_many(profileData)
-    
+
+        # extract data from relevant fields to build autocomplete suggestions
+        autocompleteresult = mentorDetailscollection.aggregate([
+              {"$lookup" : {
+                        "from": "users",
+                        "localField": "user_id",
+                        "foreignField": "_id",
+                        "as": "user"
+                        }
+              },
+
+              { "$lookup": {
+                        "from": "experiences",
+                        "localField": "user.experience",
+                        "foreignField": "_id",
+                        "as": "experience"
+                        },
+              },
+
+              { "$unwind" :  {"path":"$user","preserveNullAndEmptyArrays":True }
+              },
+
+              { "$unwind" :  {"path":"$experience","preserveNullAndEmptyArrays":True }
+              },
+
+              { "$unwind" :  {"path":"$education","preserveNullAndEmptyArrays":True }
+              },
+
+              {
+                "$project": {
+                  "_id":0,  
+                  "name": 1,
+                  "field_of_work":1,
+                  "industry":1,
+                  "company_name" : "$experience.company_name",
+                  "designation": "$experience.designation",
+                  "degree": "$education.degree",
+                  "university_name": "$education.university_name",
+                  "specialization": "$education.specialization"
+                  } 
+              },
+              
+        ])
+
+        # change the format from {key:value}, to {field_name:key, value:value} for better suggestions
+        fields = list(autocompleteresult)
+        
+        autocomplete = []
+
+        # iterate through the array of {key:value} objects and 
+        # append to a new array of {field_name:key, value:value} objects
+        for field in fields :
+          for kv in field.items():
+            if (pre_process(kv[1])==""):
+              pass
+            else :
+              pair = {'field_name' : kv[0],'value' : pre_process(kv[1])} 
+              #. strip() trims the whitespaces making the data more clean and avoids duplication
+              autocomplete.append(pair)
+           
+        unique_autocomplete = []
+
+        # getting only the unique key value pairs for autocomplete
+        for dictionary in autocomplete:
+          if dictionary not in unique_autocomplete:
+            unique_autocomplete.append(dictionary)
+
+        # connect to the collection autocomplete-values 
+        autocompleteCollection = db['autocompleteValues']
+
+        # delete the existing autocomplete data and replace with the current autocomplete data
+        autocompleteCollection.delete_many({})
+        autocompleteCollection.insert_many((unique_autocomplete))
+
         status = 'success'
         return status
 
