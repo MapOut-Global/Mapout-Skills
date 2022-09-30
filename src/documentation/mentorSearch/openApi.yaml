@@ -1,0 +1,46 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: 
+  description: Multi-file boilerplate for OpenAPI Specification.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:5051
+    description: Local server
+  - url: 
+    description: Dev server
+  - url: 
+    description: Production server
+paths:
+  /search:
+    get:
+      summary: Search for mentors based on the query text.
+      tags:
+        - mentor-search
+      parameters:
+        -in: query  
+        description: text query to perform a mentor search with pagination parameters i.e skip and limit.
+      responses:
+        200:
+          description: List of mentors returned
+          content:
+            application/json:
+              schema:
+                type: object
+  
+  /autocomplete: 
+    get:
+      summary: Gets a list of possible search query values grounding on the user's text input.
+      tags:
+        - mentor-search
+      parameters:
+        -in: query  
+        description: text query to get a list of possible search query values grounding on the user's text input with pagination parameters i.e skip and limit.
+      responses:
+        200:
+          description: List of values returned
+          content:
+            application/json:
+              schema:
+                type: object
