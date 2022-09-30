@@ -7,7 +7,7 @@ FROM python:3.9
 
 WORKDIR /home/app
 
-COPY . .
+COPY ./mentor-search.requirements.txt .
 
 RUN pip3 install -r mentor-search.requirements.txt
 
@@ -15,7 +15,15 @@ RUN pip3 install -r mentor-search.requirements.txt
 # "bson" pakcage should not be installed as pymongo comes with its own
 # https://stackoverflow.com/questions/60149801/import-error-importerror-cannot-import-name-abc-from-bson-py3compat
 #
-RUN pip3 install datetime pandas "pymongo[srv]" waitress Paste
+RUN pip3 install datetime
+RUN pip3 install pandas
+RUN pip3 install "pymongo[srv]"
+RUN pip3 install waitress
+RUN pip3 install Paste
+RUN pip3 install flask-cors
+RUN pip install flask-smorest
+
+COPY . .
 
 #ENV NODE_ENV='development'
 #ENV APP_NAME='MapOut Skills'
@@ -23,9 +31,13 @@ RUN pip3 install datetime pandas "pymongo[srv]" waitress Paste
 #ENV MONGODB_STAGING_URI='mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
 #ENV DATABASE='mapout-staging'
 #ENV FLASK_APP='src/controllers/mentor-search/intelligent-search.py'
+#ENV FLASK_DEBUG=1
 
 
 EXPOSE 5041
 
 # ENTRYPOINT [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5041"]
-ENTRYPOINT [ "python3", "src/controllers/mentor-search/production-server.py"]
+#ENTRYPOINT [ "python3", "src/controllers/mentor-search/production-server.py"]
+#RUN [ "python3", "src/controllers/mentor-search/production-server.py"]
+#RUN ["nodemon --exec 'python3 -m flask run --host=0.0.0.0 --port=5041'"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5041"]

@@ -6,21 +6,27 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:5051
+  - url: http://localhost:5041
     description: Local server
   - url: 
     description: Dev server
   - url: 
     description: Production server
 paths:
-  /search:
+  /mentors-search:
     get:
       summary: Search for mentors based on the query text.
       tags:
         - mentor-search
       parameters:
-        -in: query  
-        description: text query to perform a mentor search with pagination parameters i.e skip and limit.
+        - in: query
+          name: search
+          description: text query to perform a mentor search with pagination parameters i.e skip and limit.
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
       responses:
         200:
           description: List of mentors returned
