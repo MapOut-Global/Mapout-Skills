@@ -1,28 +1,28 @@
-import json
 import os
 
 import marshmallow as ma
-from bson import json_util, ObjectId
+from bson import ObjectId
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask
 from flask.views import MethodView
 from flask_cors import CORS
 from flask_smorest import Api, Blueprint
 from pymongo import MongoClient
 
 from mentor_search_utils import (
-  remove_oid,
-  flatten,
   get_subpath,
   get_subgroup,
   get,
   transform_pagination_params,
   is_empty,
+  execute_query_with_params,
 )
 from schemas import (
   MentorsSearchRequestSchema,
   MentorProfilesSearchResponseSchema,
   MentorsWeightedSearchRequestSchema,
+  MentorsAutocompleteRequestSchema,
+  MentorsAutocompleteResponseSchema,
 )
 
 load_dotenv()
@@ -63,6 +63,7 @@ def flask_app():
   return "Mapout Skills Flask Application"
 
 
+# DEPRECATED
 @blp.route('/mentors-search')
 class MentorSearch(MethodView):
   @blp.arguments(MentorsSearchRequestSchema, location='query')
@@ -214,14 +215,15 @@ class MentorSearch(MethodView):
     }
 
 
-@blp.route('/weighted-search')
+# @blp.route('/weighted-search')
+@blp.route('/search/mentors')
 class WeightedSearch(MethodView):
-  # experience.designation : react developer, experience.company_name: Microsoft, education.university : IIT, education.degree : B.Tech, education.specialization : Web Development, industry : Software, field_of_work : Finance, corpus : experienced
   @blp.arguments(MentorsWeightedSearchRequestSchema, location='query')
   @blp.response(200, MentorProfilesSearchResponseSchema)
   def get(self, args: dict):
     """Mentors parameterised search"""
 
+    # transformation is necessary for the client-side convenience and ability to specify validation schema
     query_fields_to_db_query_map = {
       'experience.designation': 'experienceDesignation',
       'experience.company_name': 'experienceCompanyName',
@@ -245,23 +247,13 @@ class WeightedSearch(MethodView):
 
     print(query, flush=True)
 
-    sort_by = args.pop('sortBy')
-    sort_order = args.pop('sortOrder')
-    page = args.pop('page')
-    per_page = args.pop('perPage')
-
-    skip, limit = transform_pagination_params(page, per_page)
-
     pipelines = []
-    query_corpus = ""
+    query_corpus = query.pop('corpus', '')
 
     # Preparing MongoDB search conditions grounding on the passed field in the request
     for path, value in query.items():
       # contains a compound query that handles the widest  use-case
       query_corpus = query_corpus + value + " "
-
-      if path == 'corpus':
-        continue
 
       subpaths = get_subpath(path)
       subgroups = get_subgroup(value)
@@ -292,9 +284,6 @@ class WeightedSearch(MethodView):
           },
         })
 
-    print(query_corpus, flush=True)
-    print(pipelines, flush=True)
-
     search_stage = {
       "$search": {
         "index": "mentor_search",
@@ -304,6 +293,7 @@ class WeightedSearch(MethodView):
         'compound': {
           'should': [
             *pipelines,
+
             {
               "text": {
                 "query": query_corpus,
@@ -351,7 +341,7 @@ class WeightedSearch(MethodView):
       },
     }
 
-    result = collection.aggregate([
+    return execute_query_with_params(args, collection, [
       search_stage,
 
       {"$lookup": {
@@ -390,63 +380,20 @@ class WeightedSearch(MethodView):
           "profilePic": "$user.profilePic",
           "talent_board": "$user.talent_board",
           "rating": "$user.rating",
-          "score": {"$meta": "searchScore"},
         }
       },
-
-      {
-        "$sort": {sort_by: sort_order}
-      },
-
-      {
-        "$group":
-          {
-            "_id": "null",
-            "count": {"$sum": 1},
-            "data": {"$push": "$$ROOT"}
-          }
-      },
-
-      {
-        "$project": {
-          "_id": 0,
-          "count": 1,
-          "data": {
-            "$slice": ['$data', skip, limit],
-          }
-        }
-      }
     ])
 
-    json_data = get(list(result), 0)
-    print(json_data, flush=True)
 
-    return {
-      'count': get(json_data, 'count', 0),
-      'page': page,
-      'perPage': per_page,
-      'sortBy': sort_by,
-      'sortOrder': sort_order,
-      'data': get(json_data, 'data', []),
-    }
-
-
-@blp.route('/autocomplete')
-class MentorsAutocomplete(MethodView):
-  @blp.arguments(MentorsSearchRequestSchema, location='query')
-  # TODO: add response types
+# TODO: when the query contains few fields the result might be empty - SOLVE IT
+@blp.route('/search/mentors/autocomplete/search-params-and-values')
+class MentorsAutocompleteSearchParamsAndValues(MethodView):
+  @blp.arguments(MentorsAutocompleteRequestSchema, location='query')
+  @blp.response(200, MentorsAutocompleteResponseSchema)
   def get(self, args: dict):
-    # query can be passed as an argument
+    """Autocompletes possible values and mentor profile fields where those values can be found"""
     query = args.pop("query")
-    page = args.pop("page")
-    per_page = args.pop("per_page")
-    sort_by = args.pop('sortBy')
-    sort_order = args.pop('sortOrder')
-
-    skip, limit = transform_pagination_params(page, per_page)
-
-    # TODO: add score sorting
-    result = autocomplete_values.aggregate([
+    return execute_query_with_params(args, autocomplete_values, [
       {
         "$search": {
           "index": "autocomplete",
@@ -454,23 +401,30 @@ class MentorsAutocomplete(MethodView):
             "query": query,
             "path": "value"
           }
-        }
+        },
       },
-      {
-        '$sort': {sort_by: sort_order}
-      },
-      {
-        "$limit": limit
-      },
-      {
-        "$skip": skip
-      }
     ])
-    list_cur = list(result)
-    json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
-    obj = {'data': (json_data)}
-    return obj
 
+
+# TODO: add an appropriate index
+@blp.route('/search/mentors/autocomplete/search-param-values')
+class MentorsSearchAutocompleteSearchParameterValues(MethodView):
+  @blp.arguments(MentorsAutocompleteRequestSchema, location='query')
+  @blp.response(200, MentorsAutocompleteResponseSchema)
+  def get(self, args: dict):
+    """Autocompletes possible values for one search parameter"""
+    query = args.pop('query')
+    return execute_query_with_params(args, autocomplete_values, [
+      {
+        "$search": {
+          "index": "autocomplete",
+          "autocomplete": {
+            "query": query,
+            "path": "field_name"
+          }
+        },
+      },
+    ])
 
 api.register_blueprint(blp)
 

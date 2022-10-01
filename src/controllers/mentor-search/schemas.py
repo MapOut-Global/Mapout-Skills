@@ -1,12 +1,12 @@
 from enum import Enum, IntEnum
 
-import marshmallow as ma
+from marshmallow import fields, Schema, ValidationError, validates
 
 
 class MentorsSearchSortBy(str, Enum):
   Score = 'score'
   Rating = 'rating'
-  Price = 'price'
+  Price = 'mentorPrice'
 
 
 class MentorsSearchSortOrder(IntEnum):
@@ -14,75 +14,113 @@ class MentorsSearchSortOrder(IntEnum):
   Desk = -1
 
 
-class MentorsSearchRequestSchema(ma.Schema):
-  query = ma.fields.String()
-  page = ma.fields.Number(load_default=1)
-  perPage = ma.fields.Number(load_default=20)
-  sortBy = ma.fields.Enum(MentorsSearchSortBy, by_value=True, load_default=MentorsSearchSortBy.Score)
-  sortOrder = ma.fields.Number(load_default=MentorsSearchSortOrder.Desk)
+allowed_search_sort_order = [entry.value for entry in MentorsSearchSortOrder]
 
-  @ma.validates('sortOrder')
-  def validate_sort_order(self, value, **kwagrs):
-    normalised_value = value or MentorsSearchSortOrder.Desk
-    allowed_values = [entry.value for entry in MentorsSearchSortOrder]
-    if int(normalised_value) not in allowed_values:
-      raise ma.ValidationError("Sort order '%s' is not allowed!" % value)
+def validate_sort_order(value, allowed_values):
+  if int(value) not in allowed_values:
+    raise ValidationError("Sort order '%s' is not allowed!" % value)
+
+
+class ListRequestSchema(Schema):
+  page = fields.Number(load_default=1)
+  perPage = fields.Number(load_default=20)
+  sortBy = fields.String()
+  sortOrder = fields.String(load_default=MentorsSearchSortOrder.Desk.value)
+
+  @validates('sortOrder')
+  def validates_sort_order(self, value, **kwargs):
+    validate_sort_order(value, allowed_search_sort_order)
+
+
+class MentorsSearchRequestSchema(Schema):
+  query = fields.String()
+  page = fields.Number(load_default=1)
+  perPage = fields.Number(load_default=20)
+  sortBy = fields.Enum(MentorsSearchSortBy, by_value=True, load_default=MentorsSearchSortBy.Score)
+  sortOrder = fields.Number(load_default=MentorsSearchSortOrder.Desk)
+
+  @validates('sortOrder')
+  def validates_sort_order(self, value, **kwagrs):
+    validate_sort_order(value, allowed_search_sort_order)
+
+
+class ListResponseSchema(Schema):
+  count = fields.Number(default=0)
+  page = fields.Number()
+  perPage = fields.Number()
+  sortBy = fields.Enum(MentorsSearchSortBy, by_value=True)
+  sortOrder = fields.Number()
 
 
 class MentorsWeightedSearchRequestSchema(MentorsSearchRequestSchema):
-  experienceDesignation = ma.fields.String()
-  experienceCompanyName = ma.fields.String()
-  educationUniversity = ma.fields.String()
-  educationDegree = ma.fields.String()
-  educationSpecialization = ma.fields.String()
+  experienceDesignation = fields.String()
+  experienceCompanyName = fields.String()
+  educationUniversity = fields.String()
+  educationDegree = fields.String()
+  educationSpecialization = fields.String()
 
-  industry = ma.fields.String()
-  fieldOfWork = ma.fields.String()
-
-class MentorExperienceSchema(ma.Schema):
-  company_name = ma.fields.String(required=True)
-  designation = ma.fields.String(required=True)
+  industry = fields.String()
+  fieldOfWork = fields.String()
 
 
-class MentorTalentBoardProjectSchema(ma.Schema):
-  url = ma.fields.String()
-  thumbnail = ma.fields.String()
-  type = ma.fields.String()
+class MentorExperienceSchema(Schema):
+  company_name = fields.String(required=True)
+  designation = fields.String(required=True)
 
 
-class MentorTalentBoardSchema(ma.Schema):
-  _id = ma.fields.UUID()
-  title = ma.fields.String()
-  description = ma.fields.String()
-  hifi = ma.fields.List(ma.fields.String) # TODO: fix in the future
-  followers = ma.fields.List(ma.fields.String) # TODO: fix in the future
-  project = ma.fields.List(ma.fields.Nested(MentorTalentBoardProjectSchema))
+class MentorTalentBoardProjectSchema(Schema):
+  url = fields.String()
+  thumbnail = fields.String()
+  type = fields.String()
 
 
-class MentorTalentBoardHostSchema(ma.Schema):
-  _id = ma.fields.UUID()
-  talent_boards = ma.fields.List(ma.fields.Nested(MentorTalentBoardSchema))
+class MentorTalentBoardSchema(Schema):
+  _id = fields.UUID()
+  title = fields.String()
+  description = fields.String()
+  hifi = fields.List(fields.String) # TODO: fix in the future
+  followers = fields.List(fields.String) # TODO: fix in the future
+  project = fields.List(fields.Nested(MentorTalentBoardProjectSchema))
 
 
-class MentorProfileSchema(ma.Schema):
-  user_id = ma.fields.UUID(required=True)
-  name = ma.fields.String(required=True)
-  mentorPrice = ma.fields.Number(required=True)
-  experience = ma.fields.List(ma.fields.Nested(MentorExperienceSchema))
-  mentorFor = ma.fields.String()
-  about = ma.fields.String()
-  current_location = ma.fields.String()
-  profilePic = ma.fields.String()
-  talent_board = ma.fields.Nested(MentorTalentBoardHostSchema)
-  # talent_board = ma.fields.String()
-  rating = ma.fields.String()  # @TODO: change
-  score = ma.fields.Number()
+class MentorTalentBoardHostSchema(Schema):
+  _id = fields.UUID()
+  talent_boards = fields.List(fields.Nested(MentorTalentBoardSchema))
 
 
-class MentorProfilesSearchResponseSchema(ma.Schema):
-  count = ma.fields.Number(default=0)
-  data = ma.fields.List(ma.fields.Nested(MentorProfileSchema), default=[])
-  page = ma.fields.Number()
-  perPage = ma.fields.Number()
-  sortBy = ma.fields.Enum(MentorsSearchSortBy, by_value=True)
-  sortOrder = ma.fields.Number()
+class MentorProfileSchema(Schema):
+  user_id = fields.UUID(required=True)
+  name = fields.String(required=True)
+  mentorPrice = fields.Number(required=True)
+  experience = fields.List(fields.Nested(MentorExperienceSchema))
+  mentorFor = fields.String()
+  about = fields.String()
+  current_location = fields.String()
+  profilePic = fields.String()
+  talent_board = fields.Nested(MentorTalentBoardHostSchema)
+  # talent_board = fields.String()
+  rating = fields.String()  # @TODO: change
+  score = fields.Number()
+
+
+class MentorProfilesSearchResponseSchema(ListResponseSchema):
+  data = fields.List(fields.Nested(MentorProfileSchema), default=[])
+
+
+class MentorsAutocompleteSortBy(str, Enum):
+  Score = 'score'
+
+class MentorsAutocompleteRequestSchema(ListRequestSchema):
+  query = fields.String(required=True)
+  perPage = fields.Number(load_default=100)
+  sortBy = fields.Enum(MentorsAutocompleteSortBy, load_default=MentorsSearchSortBy.Score, by_value=True)
+
+
+class MentorsAutocompleteItemSchema(Schema):
+  value = fields.String()
+  field_name = fields.String()
+
+
+class MentorsAutocompleteResponseSchema(ListResponseSchema):
+  data = fields.List(fields.Nested(MentorsAutocompleteItemSchema))
+  sortBy = fields.Enum(MentorsAutocompleteSortBy, by_value=True)
