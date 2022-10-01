@@ -1,6 +1,5 @@
 import re
 
-
 def remove_oid(string):
   # function that replace $oid to _id from collection.find() cursor
   while True:
@@ -14,65 +13,58 @@ def remove_oid(string):
 def flatten(l):
     return [item for sublist in l for item in sublist]
 
+# function that returns subpaths where weights will be lower based on search parameteres
 def get_subpath(paths):
-  # function that returns subpaths where weights will be lower based on search parameteres
   subpaths = []
 
   for path in paths :
-    if (path=='education.degree' or path=='education.specialization' or path=='education.university'):
-      subpath1 = 'experiencecorpus'
-      subpath2 = 'educationcorpus'
-      subpaths.append(subpath1)
-      subpaths.append(subpath2)
+    if path == 'education.degree' or path == 'education.specialization' or path == 'education.university':
+      subpaths.append('experiencecorpus')
+      subpaths.append('educationcorpus')
 
-    if (path=='experience.designation' or path=='experience.company_name'):
-      subpath = 'experiencecorpus'
-      subpaths.append(subpath)
+    if path == 'experience.designation' or path == 'experience.company_name':
+      subpaths.append('experiencecorpus')
 
-    if (path=='industry'):
-      subpath1 = 'field_of_work'
-      subpath2 = 'experience.industry'
-      subpaths.append(subpath1)
-      subpaths.append(subpath2)
+    if path == 'industry':
+      subpaths.append('field_of_work')
+      subpaths.append('experience.industry')
 
-    if (path=='field_of_work'):
-      subpath1 = 'industry'
-      subpath2 = 'experience.industry'
-      subpaths.append(subpath1)
-      subpaths.append(subpath2)
+    if path== 'field_of_work':
+      subpaths.append('industry')
+      subpaths.append('experience.industry')
 
+  normalised_result = list(set(subpaths))
 
-
-  if len(list(set(subpaths))):
-    return(list(set(subpaths)))
-
+  if len(normalised_result):
+    return normalised_result
   else :
-    return paths
+    # return paths
+    return None
 
 
+# function that returns subgroup where weights will be even lower based on search parameteres
 def get_subgroup(paths):
-  # function that returns subgroup where weights will be even lower based on search parameteres
   subgroups = []
 
-  for path in paths :
-    if (path=='experience.designation' or path=='experience.company_name'):
-      subgroup = 'about'
-      subgroups.append(subgroup)
+  for path in paths:
+    if path == 'experience.designation' or path == 'experience.company_name':
+      subgroups.append('about')
 
-    if (path=='industry' or path=='field_of_work'):
-      subgroup = 'experiencecorpus'
-      subgroups.append(subgroup)
+    if path == 'industry' or path == 'field_of_work':
+      subgroups.append('experiencecorpus')
 
-  if len(list(set(subgroups))):
-    return(list(set(subgroups)))
+  normalised_result = list(set(subgroups))
 
+  if len(normalised_result):
+    return normalised_result
   else :
-    return paths
+    # return paths
+    return None
 
 
-def get(value, index, default = None):
+def get(value, path, default = None):
   try:
-    result = value[index]
+    result = value[path]
   except (IndexError, KeyError, TypeError) as error:
     print(error, flush=True)
     result = default
@@ -86,3 +78,17 @@ def transform_pagination_params(page, per_page):
     skip,
     limit,
   }
+
+def is_none(value):
+  return value is None
+
+def is_empty(value):
+  return is_none(value) or any(value) is False
+
+def filter_by(predicate, value):
+  result = list()
+  for index, keyed_value in enumerate(value):
+    print("filter_by: key - " + str(index) + " value - " + str(keyed_value), flush=True)
+    if predicate(keyed_value) is False:
+      result.append(keyed_value)
+  return result

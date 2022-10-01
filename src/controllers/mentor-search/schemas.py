@@ -29,45 +29,52 @@ class MentorsSearchRequestSchema(ma.Schema):
       raise ma.ValidationError("Sort order '%s' is not allowed!" % value)
 
 
-class MentorsExperience(ma.Schema):
-  designation = ma.fields.String()
-  companyName = ma.fields.String()
-
-
-class MentorsEducation(ma.Schema):
-  university = ma.fields.String()
-  degree = ma.fields.String()
-
-
 class MentorsWeightedSearchRequestSchema(MentorsSearchRequestSchema):
-  experience = ma.fields.Nested(MentorsExperience)
-  education = ma.fields.Nested(MentorsEducation)
+  experienceDesignation = ma.fields.String()
+  experienceCompanyName = ma.fields.String()
+  educationUniversity = ma.fields.String()
+  educationDegree = ma.fields.String()
+  educationSpecialization = ma.fields.String()
 
   industry = ma.fields.String()
   fieldOfWork = ma.fields.String()
-  """General query"""
-  corpus = ma.fields.String()
 
 class MentorExperienceSchema(ma.Schema):
   company_name = ma.fields.String(required=True)
   designation = ma.fields.String(required=True)
 
 
+class MentorTalentBoardProjectSchema(ma.Schema):
+  url = ma.fields.String()
+  thumbnail = ma.fields.String()
+  type = ma.fields.String()
+
+
 class MentorTalentBoardSchema(ma.Schema):
+  _id = ma.fields.UUID()
   title = ma.fields.String()
   description = ma.fields.String()
+  hifi = ma.fields.List(ma.fields.String) # TODO: fix in the future
+  followers = ma.fields.List(ma.fields.String) # TODO: fix in the future
+  project = ma.fields.List(ma.fields.Nested(MentorTalentBoardProjectSchema))
+
+
+class MentorTalentBoardHostSchema(ma.Schema):
+  _id = ma.fields.UUID()
+  talent_boards = ma.fields.List(ma.fields.Nested(MentorTalentBoardSchema))
 
 
 class MentorProfileSchema(ma.Schema):
   user_id = ma.fields.UUID(required=True)
   name = ma.fields.String(required=True)
   mentorPrice = ma.fields.Number(required=True)
-  experience = ma.fields.Nested(MentorExperienceSchema)
+  experience = ma.fields.List(ma.fields.Nested(MentorExperienceSchema))
   mentorFor = ma.fields.String()
   about = ma.fields.String()
   current_location = ma.fields.String()
   profilePic = ma.fields.String()
-  talent_board = ma.fields.Nested(MentorTalentBoardSchema)
+  talent_board = ma.fields.Nested(MentorTalentBoardHostSchema)
+  # talent_board = ma.fields.String()
   rating = ma.fields.String()  # @TODO: change
   score = ma.fields.Number()
 

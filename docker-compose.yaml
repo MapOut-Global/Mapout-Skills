@@ -5,15 +5,15 @@ services:
     build:
       dockerfile: mentor-search.Dockerfile
       context: .
-#    command:
-#      - "python3 -m flask run --host=0.0.0.0 --port=5041"
     environment:
       PORT: 5041
       FLASK_DEBUG: 1
       FLASK_APP: 'src/controllers/mentor-search/intelligent-search.py'
       FLASK_ENV: 'development'
       MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+#      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout?retryWrites=true&w=majority'
       DATABASE: 'mapout-staging'
+#      DATABASE: 'mapout'
     ports:
       - "5041:5041"
     expose:

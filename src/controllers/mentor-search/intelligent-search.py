@@ -17,6 +17,7 @@ from mentor_search_utils import (
   get_subgroup,
   get,
   transform_pagination_params,
+  is_empty,
 )
 from schemas import (
   MentorsSearchRequestSchema,
@@ -219,7 +220,31 @@ class WeightedSearch(MethodView):
   @blp.arguments(MentorsWeightedSearchRequestSchema, location='query')
   @blp.response(200, MentorProfilesSearchResponseSchema)
   def get(self, args: dict):
-    query = args.pop('query', 'college guidance career guidance interview preparation job search guidance')
+    """Mentors parameterised search"""
+
+    query_fields_to_db_query_map = {
+      'experience.designation': 'experienceDesignation',
+      'experience.company_name': 'experienceCompanyName',
+      'education.university': 'educationUniversity',
+      'education.degree': 'educationDegree',
+      'education.specialization': 'educationSpecialization',
+      'industry': 'industry',
+      'field_of_work': 'fieldOfWork',
+      'corpus': 'query'
+    }
+
+    query = {}
+
+    for target_path in query_fields_to_db_query_map:
+      request_params_path = query_fields_to_db_query_map[target_path]
+      if request_params_path in args:
+        query[target_path] = args.pop(request_params_path)
+
+    if is_empty(query):
+      query = {'corpus': "college guidance career guidance interview preparation job search guidance"}
+
+    print(query, flush=True)
+
     sort_by = args.pop('sortBy')
     sort_order = args.pop('sortOrder')
     page = args.pop('page')
@@ -228,73 +253,106 @@ class WeightedSearch(MethodView):
     skip, limit = transform_pagination_params(page, per_page)
 
     pipelines = []
-    querycorpus = ""
+    query_corpus = ""
 
-    # iterate through the json object of query
-    for kv in query.items():
-      # now our query is divided as kv={"path":"value"} in each iteration
-      # kv[0] gives us path, kv[1] gives us value
-      subpaths = get_subpath(kv[0])
-      subgroups = get_subgroup(kv[0])
+    # Preparing MongoDB search conditions grounding on the passed field in the request
+    for path, value in query.items():
+      # contains a compound query that handles the widest  use-case
+      query_corpus = query_corpus + value + " "
 
-      condition = [
-        {"text": {
-          "query": kv[1],
-          "path": kv[0],
+      if path == 'corpus':
+        continue
+
+      subpaths = get_subpath(path)
+      subgroups = get_subgroup(value)
+
+      pipelines.append({
+        "text": {
+          "query": value,
+          "path": path,
           "score": {"boost": {"value": 10}}
-        }},
+        },
+      })
 
-        {"text": {
-          "query": kv[1],
-          "path": subpaths,
-          "score": {"boost": {"value": 7}}
-        }},
+      if subpaths is not None:
+        pipelines.append({
+          "text": {
+            "query": value,
+            "path": subpaths,
+            "score": {"boost": {"value": 7}}
+          },
+        })
 
-        {"text": {
-          "query": kv[1],
-          "path": subgroups,
-          "score": {"boost": {"value": 5}}
-        }}
-      ]
+      if subgroups is not None:
+        pipelines.append({
+          "text": {
+            "query": value,
+            "path": subgroups,
+            "score": {"boost": {"value": 5}}
+          },
+        })
 
-      # in every iteration we add the above condition array to our pipelines array
-      pipelines.append(condition)
-      # also we create a querycorpus that contains all the query keywords
-      querycorpus = querycorpus + kv[1] + " "
+    print(query_corpus, flush=True)
+    print(pipelines, flush=True)
 
-    # flatten lowers down the dimension of nested arrays ( just like spread in js )
-    pipeline = (flatten(pipelines))
-
-    # now that we have a flat array of dictionaries, we will push them into a new dictionary
-    final_pipeline = {}
-    for x in range(len(pipeline)):
-      final_pipeline.update(pipeline[x])
-
-    # print(new_pipeline)
-
-    # and we define the corpus condition based on the query corpus
-    corpus_condition = {
-      "text": {
-        "query": querycorpus,
-        "path": "corpus"
-      }
+    search_stage = {
+      "$search": {
+        "index": "mentor_search",
+        "highlight": {
+          "path": "corpus"
+        },
+        'compound': {
+          'should': [
+            *pipelines,
+            {
+              "text": {
+                "query": query_corpus,
+                "path": "corpus"
+              }
+            },
+            {
+              "text": {
+                "query": query_corpus,
+                "path": ['name', 'about', 'mentorFor', 'mentorTo', 'field_of_work', 'industry'],
+                "score": {"boost": {"value": 5}}
+              },
+            },
+            {
+              "text": {
+                "query": query_corpus,
+                "path": ['tech_skill.name', 'soft_skill.name', 'experience.designation', 'experience.industry',
+                         'education.degree', 'education.specialization'],
+                "score": {"boost": {"value": 4}}
+              },
+            },
+            {
+              "text": {
+                "query": query_corpus,
+                "path": ['experience.company_name', 'education.university_name'],
+                "score": {"boost": {"value": 3}}
+              },
+            },
+            {
+              "text": {
+                "query": query_corpus,
+                "path": ['languages', 'experiencecorpus', 'educationcorpus', 'talentboards'],
+                "score": {"boost": {"value": 2}}
+              },
+            },
+            {
+              "text": {
+                "query": query_corpus,
+                "path": ['corpus'],
+                "score": {"boost": {"value": 1}}
+              }
+            }
+          ]
+        }
+      },
     }
 
     result = collection.aggregate([
-      {
-        "$search": {
-          "index": "mentor_search",
-          "highlight": {
-            "path": "corpus"
-          },
-          "compound": {
-            "should": [
-              (corpus_condition),  # documents should have some match in corpus based on entire query corpus
-              (final_pipeline)  # documents will be ranked higher based on the search parameters (weighted)
-            ]
-          }
-        }
-      },
+      search_stage,
 
       {"$lookup": {
         "from": "users",
@@ -312,13 +370,17 @@ class WeightedSearch(MethodView):
       },
       },
 
-      {"$unwind": "$user"},
+      {
+        "$unwind": {
+          "path": "$user",
+          "preserveNullAndEmptyArrays": True
+        }
+      },
 
       {
         "$project": {
           "user_id": 1,
           "name": 1,
-          "mentorPrice": 1,
           "experience.company_name": 1,
           "experience.designation": 1,
           "mentorFor": "$user.mentorFor.name",
@@ -356,26 +418,32 @@ class WeightedSearch(MethodView):
       }
     ])
 
-    list_cur = list(result)
-    # Find MongoDB object id serializer
-    json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
+    json_data = get(list(result), 0)
+    print(json_data, flush=True)
 
-    try:
-      obj = {'data': (json_data)}
-      return obj['data'][0]
-
-    except IndexError:
-      obj = {'count': 0, 'data': []}
-      return obj
+    return {
+      'count': get(json_data, 'count', 0),
+      'page': page,
+      'perPage': per_page,
+      'sortBy': sort_by,
+      'sortOrder': sort_order,
+      'data': get(json_data, 'data', []),
+    }
 
 
 @blp.route('/autocomplete')
 class MentorsAutocomplete(MethodView):
+  @blp.arguments(MentorsSearchRequestSchema, location='query')
+  # TODO: add response types
   def get(self, args: dict):
     # query can be passed as an argument
-    query = args.get("query")
-    skip = args.get("skip")
-    limit = args.get("limit")
+    query = args.pop("query")
+    page = args.pop("page")
+    per_page = args.pop("per_page")
+    sort_by = args.pop('sortBy')
+    sort_order = args.pop('sortOrder')
+
+    skip, limit = transform_pagination_params(page, per_page)
 
     # TODO: add score sorting
     result = autocomplete_values.aggregate([
@@ -389,12 +457,14 @@ class MentorsAutocomplete(MethodView):
         }
       },
       {
+        '$sort': {sort_by: sort_order}
+      },
+      {
         "$limit": limit
       },
       {
         "$skip": skip
       }
-
     ])
     list_cur = list(result)
     json_data = json.loads(remove_oid(json_util.dumps(list_cur)))
