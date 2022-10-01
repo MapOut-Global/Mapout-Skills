@@ -41,9 +41,9 @@ app = Flask(__name__)
 app.config['API_TITLE'] = 'Mentors search'
 app.config['API_VERSION'] = 'v1'
 app.config['OPENAPI_VERSION'] = '3.0.0'
-app.config['OPENAPI_URL_PREFIX'] = '/docs'
+app.config['OPENAPI_URL_PREFIX'] = '/search/mentors/docs'
 app.config['OPENAPI_JSON_PATH'] = 'openapi.json'
-app.config['OPENAPI_SWAGGER_UI_PATH'] = '/swagger-ui'
+app.config['OPENAPI_SWAGGER_UI_PATH'] = '/swagger'
 app.config['OPENAPI_SWAGGER_UI_URL'] = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.25.0/'
 api = Api(app)
 CORS(app)
@@ -51,7 +51,7 @@ CORS(app)
 blp = Blueprint(
   'mentors',
   'mentors',
-  url_prefix='/',
+  url_prefix='/search/mentors',
   description='Mentors search'
 )
 
@@ -215,8 +215,7 @@ class MentorSearch(MethodView):
     }
 
 
-# @blp.route('/weighted-search')
-@blp.route('/search/mentors')
+@blp.route('')
 class WeightedSearch(MethodView):
   @blp.arguments(MentorsWeightedSearchRequestSchema, location='query')
   @blp.response(200, MentorProfilesSearchResponseSchema)
@@ -386,7 +385,7 @@ class WeightedSearch(MethodView):
 
 
 # TODO: when the query contains few fields the result might be empty - SOLVE IT
-@blp.route('/search/mentors/autocomplete/search-params-and-values')
+@blp.route('/autocomplete/search-params-and-values')
 class MentorsAutocompleteSearchParamsAndValues(MethodView):
   @blp.arguments(MentorsAutocompleteRequestSchema, location='query')
   @blp.response(200, MentorsAutocompleteResponseSchema)
@@ -407,7 +406,7 @@ class MentorsAutocompleteSearchParamsAndValues(MethodView):
 
 
 # TODO: add an appropriate index
-@blp.route('/search/mentors/autocomplete/search-param-values')
+@blp.route('/autocomplete/search-param-values')
 class MentorsSearchAutocompleteSearchParameterValues(MethodView):
   @blp.arguments(MentorsAutocompleteRequestSchema, location='query')
   @blp.response(200, MentorsAutocompleteResponseSchema)
