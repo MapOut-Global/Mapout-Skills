@@ -37,7 +37,7 @@ COPY . .
 EXPOSE 5041
 
 # ENTRYPOINT [ "python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5041"]
-#ENTRYPOINT [ "python3", "src/controllers/mentor-search/production-server.py"]
+ENTRYPOINT [ "python3", "src/controllers/mentor-search/production-server.py"]
 #RUN [ "python3", "src/controllers/mentor-search/production-server.py"]
 #RUN ["nodemon --exec 'python3 -m flask run --host=0.0.0.0 --port=5041'"]
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5041"]
+#CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5041"]
