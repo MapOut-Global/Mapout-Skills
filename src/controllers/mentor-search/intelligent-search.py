@@ -311,8 +311,8 @@ class WeightedSearch(MethodView):
 
     search_stage = {
       "$search": {
-        # "index": "mentor_search",
-        "index": "mentor-search-production",
+        "index": "mentor_search",
+        # "index": "mentor-search-production",
         "highlight": {
           "path": "corpus"
         },
