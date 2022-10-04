@@ -129,7 +129,7 @@ class MentorsAutocompleteSortBy(str, Enum):
   Score = 'score'
 
 class MentorsAutocompleteRequestSchema(ListRequestSchema):
-  query = fields.String(required=True)
+  query = fields.String(required=True, validate=fields.Length(3))
   perPage = fields.Number(load_default=100)
   sortBy = fields.Enum(MentorsAutocompleteSortBy, load_default=MentorsSearchSortBy.Score, by_value=True)
 
@@ -142,3 +142,13 @@ class MentorsAutocompleteItemSchema(Schema):
 class MentorsAutocompleteResponseSchema(ListResponseSchema):
   data = fields.List(fields.Nested(MentorsAutocompleteItemSchema))
   sortBy = fields.Enum(MentorsAutocompleteSortBy, by_value=True)
+
+class MentorsFilterRequestSchema(Schema):
+  field_name = fields.String(required=True)
+
+class MentorsFilterItemSchema(Schema):
+  field_name = fields.String(required=True)
+  value = fields.String(required=True)
+
+class MentorsFilterResponseSchema(Schema):
+  data = fields.List(fields.Nested(MentorsFilterItemSchema))

@@ -276,7 +276,10 @@ def normalize_mentor_data():
 
       {"$unwind": {"path": "$education", "preserveNullAndEmptyArrays": True}
        },
-
+      
+      {"$unwind": {"path": "$language", "preserveNullAndEmptyArrays": True}
+       },
+      
       {
         "$project": {
           "_id": 0,
@@ -287,7 +290,11 @@ def normalize_mentor_data():
           "designation": "$experience.designation",
           "degree": "$education.degree",
           "university_name": "$education.university_name",
-          "specialization": "$education.specialization"
+          "specialization": "$education.specialization",
+          "mentorType": 1,
+          "languages" : "$language.language",
+          "current_location": "$user.current_location",
+         
         }
       },
     ])
