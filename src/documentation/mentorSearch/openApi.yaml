@@ -6,7 +6,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:5041
+  - url: http://localhost:5051
     description: Local server
   - url: 
     description: Dev server
@@ -18,15 +18,33 @@ paths:
       summary: Search for mentors based on the query text.
       tags:
         - mentor-search
-      parameters:
-        - in: query
-          name: search
-          description: text query to perform a mentor search with pagination parameters i.e skip and limit.
-          schema:
-            type: object
-            properties:
-              query:
-                type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  example : react
+                  default : college guidance career guidance interview preparation job search guidance
+                sortBy:
+                  type: string
+                  example : mentorPrice
+                  default : score
+                sortOrder:
+                  type: integer
+                  default : -1
+                  example : -1
+                skip:
+                  type: integer
+                  default : 0
+                  example : 12
+                limit:
+                  type: integer
+                  default : 12
+                  example : 24
+        description: text query to perform a mentor search with pagination parameters i.e skip and limit.
       responses:
         200:
           description: List of mentors returned
@@ -34,6 +52,29 @@ paths:
             application/json:
               schema:
                 type: object
+                example: {count : 32, data : [{"_id": "6333e6576a15c7c8b59ecbe9",
+            "about": "Self-taught Full Stack Developer With hands-on project experience in live projects in Development, Designing, and implementation of functional solutions for problems.",
+            "current_location": "Gurgaon",
+            "experience": [
+                {
+                    "company_name": "Mapout",
+                    "designation": "Full Stack Engineer"
+                }
+            ],
+            "mentorFor": [
+                "Career Guidance",
+                "Job Search Guidance",
+                "Interview Preparation"
+            ],
+            "mentorPrice": 1299,
+            "name": "Nihal  Avulan",
+            "profilePic": "https://s3.ap-south-1.amazonaws.com/s3.mapout.com/F0L-dUBCS9ablob.blob",
+            "score": 1.2831851243972778,
+            "talent_board": {
+                "talent_boards": []
+            },
+            "user_id": "630daa007222c0740c6faa24"}]}
+  
   
   /autocomplete: 
     get:
@@ -41,8 +82,23 @@ paths:
       tags:
         - mentor-search
       parameters:
-        -in: query  
-        description: text query to get a list of possible search query values grounding on the user's text input with pagination parameters i.e skip and limit.
+        - name: query
+          in: query
+          schema:
+            type: string
+            example: react
+          required: true 
+        - name: skip
+          in: query
+          schema:
+            type: integer
+            example: 0
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            example: 10 
+      description: object query to get a list of possible search query values grounding on the user's text input with pagination parameters i.e skip and limit.
       responses:
         200:
           description: List of values returned
@@ -50,3 +106,67 @@ paths:
             application/json:
               schema:
                 type: object
+
+
+  /weighted-search:
+    get:
+      summary: Search for mentors based on the query text.
+      tags:
+        - mentor-search
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: object
+                  example : {experience.designation : react developer, experience.company_name: Microsoft, education.university : IIT, education.degree : B.Tech, education.specialization : Web Development, industry : Software, field_of_work : Finance, corpus : experienced}
+                  default : {corpus : college guidance career guidance interview preparation job search guidance}
+                sortBy:
+                  type: string
+                  example : mentorPrice
+                  default : score
+                sortOrder:
+                  type: integer
+                  default : -1
+                  example : -1
+                skip:
+                  type: integer
+                  default : 0
+                  example : 12
+                limit:
+                  type: integer
+                  default : 12
+                  example : 24
+        description: object query to perform a weighted mentor search with pagination parameters i.e skip and limit.
+      responses:
+        200:
+          description: List of mentors returned
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {count : 32, data : [{"_id": "6333e6576a15c7c8b59ecbe9",
+            "about": "Self-taught Full Stack Developer With hands-on project experience in live projects in Development, Designing, and implementation of functional solutions for problems.",
+            "current_location": "Gurgaon",
+            "experience": [
+                {
+                    "company_name": "Mapout",
+                    "designation": "Full Stack Engineer"
+                }
+            ],
+            "mentorFor": [
+                "Career Guidance",
+                "Job Search Guidance",
+                "Interview Preparation"
+            ],
+            "mentorPrice": 1299,
+            "name": "Nihal  Avulan",
+            "profilePic": "https://s3.ap-south-1.amazonaws.com/s3.mapout.com/F0L-dUBCS9ablob.blob",
+            "score": 1.2831851243972778,
+            "talent_board": {
+                "talent_boards": []
+            },
+            "user_id": "630daa007222c0740c6faa24"}]}
+  
