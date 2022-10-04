@@ -440,27 +440,6 @@ class MentorsAutocompleteSearchParamsAndValues(MethodView):
     ])
 
 
-# TODO: add an appropriate index
-@blp.route('/autocomplete/search-param-values')
-class MentorsSearchAutocompleteSearchParameterValues(MethodView):
-  @blp.arguments(MentorsAutocompleteRequestSchema, location='query')
-  @blp.response(200, MentorsAutocompleteResponseSchema)
-  def get(self, args: dict):
-    """Autocompletes possible values for one search parameter"""
-    query = args.pop('query')
-    return execute_query_with_params(args, autocomplete_values, [
-      {
-        "$search": {
-          "index": "autocomplete",
-          "autocomplete": {
-            "query": query,
-            "path": "field_name"
-          }
-        },
-      },
-    ])
-
-
 @blp.route('/filter-param-values')
 class MentorsSearchFilterParameters(MethodView):
   @blp.arguments(MentorsFilterRequestSchema, location='query')
