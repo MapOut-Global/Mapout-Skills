@@ -223,29 +223,53 @@ class WeightedSearch(MethodView):
   @blp.arguments(MentorsWeightedSearchRequestSchema, location='query')
   @blp.response(200, MentorProfilesSearchResponseSchema)
   def get(self, args: dict):
-    """Mentors parameterised search"""
+    """Mentors parameterised search
 
-    # transformation is necessary for the client-side convenience and ability to specify validation schema
+    Mapping of search params categories to the query params
+    - Type of mentor - mentorType
+    - Field of work - fieldOfWork
+    - Field of education - educationSpecialization
+    - University - educationUniversity
+    - Company - experienceCompanyName
+    - Industry - industry
+    - Location - location
+    - Languages - language
+
+    "query" param is for arbitrary additional input of the user
+    """
+
+    #
+    # A map of internal fields to the request fields
+    # Transformation is necessary for the client-side convenience and ability to specify validation schema
+    #
     query_fields_to_db_query_map = {
-      'experience.designation': 'experienceDesignation',
+      'experience.designation': 'experienceDesignation', # seems to be missed
       'experience.company_name': 'experienceCompanyName',
       'education.university': 'educationUniversity',
-      'education.degree': 'educationDegree',
+      'education.degree': 'educationDegree', # seems to be missed
       'education.specialization': 'educationSpecialization',
       'industry': 'industry',
       'field_of_work': 'fieldOfWork',
-      'corpus': 'query'
+      'language': 'languages',
+      'mentorType': 'mentorType',
+      'current_location': 'location',
+      'corpus': 'query',
     }
 
     query = {}
 
+    # transformation of the search request fields into the internal ones
     for target_path in query_fields_to_db_query_map:
       request_params_path = query_fields_to_db_query_map[target_path]
       if request_params_path in args:
         query[target_path] = args.pop(request_params_path)
 
     if is_empty(query):
-      query = {'corpus': "college guidance career guidance interview preparation job search guidance"}
+      query['corpus'] = "college guidance career guidance interview preparation job search guidance"
+
+    for search_param, search_value in query.items():
+      if type(search_value) is list:
+        query[search_param] = ' '.join(search_value)
 
     print(query, flush=True)
 
@@ -286,9 +310,12 @@ class WeightedSearch(MethodView):
           },
         })
 
+    print(pipelines, flush=True)
+
     search_stage = {
       "$search": {
         "index": "mentor_search",
+        # "index": "mentor-search-production",
         "highlight": {
           "path": "corpus"
         },
@@ -373,8 +400,12 @@ class WeightedSearch(MethodView):
         "$project": {
           "user_id": 1,
           "name": 1,
+          'fieldOfWork': '$field_of_work',
           "experience.company_name": 1,
           "experience.designation": 1,
+          "education": 1,
+          'mentorType': 1,
+          'industry': 1,
           "mentorFor": "$user.mentorFor.name",
           "mentorPrice": {"$toInt": "$user.mentorPrice"},
           "about": "$user.about",
@@ -382,6 +413,7 @@ class WeightedSearch(MethodView):
           "profilePic": "$user.profilePic",
           "talent_board": "$user.talent_board",
           "rating": "$user.rating",
+          'language': 1
         }
       },
     ])

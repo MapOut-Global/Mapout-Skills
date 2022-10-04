@@ -53,14 +53,17 @@ class ListResponseSchema(Schema):
 
 
 class MentorsWeightedSearchRequestSchema(MentorsSearchRequestSchema):
-  experienceDesignation = fields.String()
-  experienceCompanyName = fields.String()
-  educationUniversity = fields.String()
-  educationDegree = fields.String()
-  educationSpecialization = fields.String()
+  experienceDesignation = fields.List(fields.String())
+  experienceCompanyName = fields.List(fields.String())
+  educationUniversity = fields.List(fields.String())
+  educationDegree = fields.List(fields.String())
+  educationSpecialization = fields.List(fields.String())
 
-  industry = fields.String()
-  fieldOfWork = fields.String()
+  industry = fields.List(fields.String())
+  fieldOfWork = fields.List(fields.String())
+  language = fields.List(fields.String())
+  mentorType = fields.List(fields.String())
+  location = fields.List(fields.String())
 
 
 class MentorExperienceSchema(Schema):
@@ -88,12 +91,26 @@ class MentorTalentBoardHostSchema(Schema):
   talent_boards = fields.List(fields.Nested(MentorTalentBoardSchema))
 
 
+class MentorLanguageSchema(Schema):
+  language = fields.String()
+
+
+class MentorEducationSchema(Schema):
+  specialization = fields.String()
+  degree = fields.String()
+  university_name = fields.String()
+
+
 class MentorProfileSchema(Schema):
   user_id = fields.UUID(required=True)
   name = fields.String(required=True)
   mentorPrice = fields.Number(required=True)
+  fieldOfWork = fields.String()
   experience = fields.List(fields.Nested(MentorExperienceSchema))
+  education = fields.List(fields.Nested(MentorEducationSchema))
+  industry = fields.String()
   mentorFor = fields.String()
+  mentorType = fields.String()
   about = fields.String()
   current_location = fields.String()
   profilePic = fields.String()
@@ -101,6 +118,7 @@ class MentorProfileSchema(Schema):
   # talent_board = fields.String()
   rating = fields.String()  # @TODO: change
   score = fields.Number()
+  language = fields.List(fields.Nested(MentorLanguageSchema))
 
 
 class MentorProfilesSearchResponseSchema(ListResponseSchema):
