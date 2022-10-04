@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mentors-search:
+    build:
+      dockerfile: mentor-search.Dockerfile
+      context: .
+    environment:
+      PORT: 5041
+      FLASK_DEBUG: 1
+      FLASK_APP: 'src/controllers/mentor-search/intelligent-search.py'
+      FLASK_ENV: 'development'
+      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+#      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout?retryWrites=true&w=majority'
+      DATABASE: 'mapout-staging'
+#      DATABASE: 'mapout'
+    ports:
+      - "5041:5041"
+    expose:
+      - "5041"
+    volumes:
+      - .:/home/app
