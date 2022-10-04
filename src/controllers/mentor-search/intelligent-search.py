@@ -462,16 +462,19 @@ class MentorsSearchAutocompleteSearchParameterValues(MethodView):
 
 
 @blp.route('/filter-param-values')
-class filter_parameters(MethodView):
+class MentorsSearchFilterParameters(MethodView):
   @blp.arguments(MentorsFilterRequestSchema, location='query')
   @blp.response(200, MentorsFilterResponseSchema)
-
   def get(self, args: dict):
     """Autocompletes possible values for one search parameter"""
     field_name = args.pop('field_name')
-    filter_values = (get_filter_values(autocomplete_values, field_name))
-    print(filter_values)
-    return{"data": filter_values}
+    filter_values = get_filter_values(autocomplete_values, field_name)
+
+    print(filter_values, flush=True)
+
+    return{
+      "data": filter_values,
+    }
 
 api.register_blueprint(blp)
 

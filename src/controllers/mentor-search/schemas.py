@@ -147,8 +147,8 @@ class MentorsFilterRequestSchema(Schema):
   field_name = fields.String(required=True)
 
 class MentorsFilterItemSchema(Schema):
-  field_name = fields.String()
-  value = fields.String()
+  field_name = fields.String(required=True)
+  value = fields.String(required=True)
 
 class MentorsFilterResponseSchema(Schema):
   data = fields.List(fields.Nested(MentorsFilterItemSchema))
