@@ -124,3 +124,13 @@ class MentorsAutocompleteItemSchema(Schema):
 class MentorsAutocompleteResponseSchema(ListResponseSchema):
   data = fields.List(fields.Nested(MentorsAutocompleteItemSchema))
   sortBy = fields.Enum(MentorsAutocompleteSortBy, by_value=True)
+
+class MentorsFilterRequestSchema(Schema):
+  field_name = fields.String(required=True)
+
+class MentorsFilterItemSchema(Schema):
+  field_name = fields.String()
+  value = fields.String()
+
+class MentorsFilterResponseSchema(Schema):
+  data = fields.List(fields.Nested(MentorsFilterItemSchema))

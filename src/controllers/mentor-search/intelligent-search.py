@@ -16,6 +16,7 @@ from mentor_search_utils import (
   transform_pagination_params,
   is_empty,
   execute_query_with_params,
+  get_filter_values
 )
 from schemas import (
   MentorsSearchRequestSchema,
@@ -23,6 +24,8 @@ from schemas import (
   MentorsWeightedSearchRequestSchema,
   MentorsAutocompleteRequestSchema,
   MentorsAutocompleteResponseSchema,
+  MentorsFilterRequestSchema,
+  MentorsFilterResponseSchema,
 )
 
 load_dotenv()
@@ -424,6 +427,19 @@ class MentorsSearchAutocompleteSearchParameterValues(MethodView):
         },
       },
     ])
+
+
+@blp.route('/filter-param-values')
+class filter_parameters(MethodView):
+  @blp.arguments(MentorsFilterRequestSchema, location='query')
+  @blp.response(200, MentorsFilterResponseSchema)
+
+  def get(self, args: dict):
+    """Autocompletes possible values for one search parameter"""
+    field_name = args.pop('field_name')
+    filter_values = (get_filter_values(autocomplete_values, field_name))
+    print(filter_values)
+    return{"data": filter_values}
 
 api.register_blueprint(blp)
 

@@ -1,4 +1,6 @@
 import re
+import json
+from bson import json_util
 
 def remove_oid(string):
   # function that replace $oid to _id from collection.find() cursor
@@ -136,3 +138,14 @@ def execute_query_with_params(args: dict, target_collection, additional_stages: 
     "sortOrder": sort_order,
     "sortBy": sort_by,
   }
+
+
+def get_filter_values(target_collection, field_name):
+  
+  value = list(target_collection.find({"field_name": field_name},{"_id":0}))
+  json_data = get(list(value), 0)
+  print(json_data, flush=True)
+  print(get(json_data, 'field_name', 0))
+  print(get(json_data, 'value', 0))
+  
+  return (target_collection.find({"field_name": field_name},{"_id":0}))
