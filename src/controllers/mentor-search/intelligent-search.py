@@ -30,7 +30,7 @@ from schemas import (
 
 load_dotenv()
 
-URI = os.getenv("MONGODB_STAGING_URI")
+URI = os.getenv("MONGODB_URI")
 database = os.getenv("DATABASE")
 port = os.getenv("PORT")
 

@@ -26,7 +26,7 @@ lemmatizer = WordNetLemmatizer()
 import os  # provides ways to access the Operating System and allows us to read the environment variables
 
 load_dotenv()
-URI = os.getenv("MONGODB_STAGING_URI")
+URI = os.getenv("MONGODB_URI")
 database = os.getenv("DATABASE")
 
 # point the client at mongo URI
