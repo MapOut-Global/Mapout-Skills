@@ -30,7 +30,7 @@ exec: true     # Enable running commands in your container.
 
 # Optional fields for more advanced use-cases.
 #
-variables:                    # Pass environment variables as key value pairs.
+variables: # Pass environment variables as key value pairs.
   NODE_ENV: 'development'
   APP_NAME: 'MapOut Skills'
   PORT: 5041
@@ -47,5 +47,29 @@ variables:                    # Pass environment variables as key value pairs.
 environments:
   dev:
     count: 1               # Number of tasks to run for the "test" environment.
-    deployment:            # The deployment strategy for the "test" environment.
-       rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
+    deployment: # The deployment strategy for the "test" environment.
+      rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
+    variables:
+      NODE_ENV: 'development'
+      APP_NAME: 'MapOut Skills'
+      PORT: 5041
+      # Fix DB credentials
+      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+      DATABASE: 'mapout-staging'
+      #  FLASK_APP: 'src/controllers/mentor-search/intelligent-search.py'
+  production:
+    count:
+      range: 1-10
+      cooldown:
+        in: 30s
+        out: 60s
+      cpu_percentage: 70
+      memory_percentage:
+        value: 80
+        cooldown:
+          in: 60s
+          out: 120s
+    variables:
+      PORT: 5041
+      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout?retryWrites=true&w=majority'
+      DATABASE: 'mapout'

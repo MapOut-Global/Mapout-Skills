@@ -6,14 +6,18 @@ FROM nikolaik/python-nodejs:python3.9-nodejs14
 
 WORKDIR /home/app
 
-COPY . .
+COPY ./requirements.txt .
 
 RUN pip3 install -r requirements.txt
 RUN pip3 install pandas
 
+COPY ./package*.json .
+
 ENV CI=true
 RUN npm ci
 
+COPY . .
+
 EXPOSE 4041
 
-ENTRYPOINT ["npm", "run", "start"]
+CMD ["npm", "run", "start"]

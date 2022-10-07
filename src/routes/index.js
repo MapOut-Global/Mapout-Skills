@@ -24,23 +24,24 @@ router.get("/", (req, res) => {
   res.send("Mapout Skills application");
 });
 
-router.get("/api/professiontoskill", professiontoskill);
-router.post("/api/skills", parseSkill);
-router.post("/api/resume", parseResume);
-router.post("/api/employScore", getScore);
-router.post("/api/getExperience", getExperience.API);
-router.post("/api/skillsExtraction", skillsExtraction);
-router.get("/get/resume/:name", resumeViewer);
-router.get("/delete/resume", resumeDelete);
-router.get("/delete/resume", resumeDelete);
-router.post("/cicd/build", cicd);
-router.post("/api/sample", offline);
-//router.post("/api/timetrial", trial); 
-//router.post("/api/skill2vec", skill2vec)
-router.post("/api/resumeParser", resumeParser);
-router.get("/api/checkactionverb", checkactionverb)
+router.get("/skills/api/professiontoskill", professiontoskill.getByName);
+router.get("/skills/api/professiontoskill/:id", professiontoskill.getById);
+router.post("/skills/api/skills", parseSkill);
+router.post("/skills/api/resume", parseResume);
+router.post("/skills/api/employScore", getScore);
+router.post("/skills/api/getExperience", getExperience.API);
+router.post("/skills/api/skillsExtraction", skillsExtraction);
+router.get("/skills/get/resume/:name", resumeViewer);
+router.get("/skills/delete/resume", resumeDelete);
+router.get("/skills/delete/resume", resumeDelete);
+router.post("/skills/cicd/build", cicd);
+router.post("/skills/api/sample", offline);
+//router.post("/skills/api/timetrial", trial);
+//router.post("/skills/api/skill2vec", skill2vec)
+router.post("/skills/api/resumeParser", resumeParser);
+router.get("/skills/api/checkactionverb", checkactionverb)
 
-router.get("/api/professions/search",search)
+router.get("/skills/api/professions/search",search)
 
 
 module.exports = router;
