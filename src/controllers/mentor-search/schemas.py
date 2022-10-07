@@ -128,6 +128,7 @@ class MentorProfilesSearchResponseSchema(ListResponseSchema):
 class MentorsAutocompleteSortBy(str, Enum):
   Score = 'score'
 
+
 class MentorsAutocompleteRequestSchema(ListRequestSchema):
   query = fields.String(required=True, validate=fields.Length(3))
   perPage = fields.Number(load_default=100)

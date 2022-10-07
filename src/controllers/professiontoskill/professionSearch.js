@@ -10,7 +10,9 @@ module.exports = {
           {
             $group: {
               _id: {$toUpper: [{$substr: ['$profession', 0, 1]}]},
-              professions: {$push: '$profession'},
+              professions: {
+                $push: {_id: '$_id', name: '$profession'}
+              },
             }
           },
           {
@@ -27,7 +29,7 @@ module.exports = {
         });
 
         res.status(200).json(regExpResult);
-      } catch(err){
+      } catch(err) {
         console.error(err);
         res.sendStatus(500);
       }
