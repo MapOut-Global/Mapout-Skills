@@ -1,23 +1,20 @@
+import re
+import warnings
 from datetime import datetime
-from pymongo import MongoClient
-import pandas as pd
+
 import nltk
-import numpy as np
-import json
-# run the below commands within the script to install libraries first time on local 
+import pandas as pd
+from dotenv import load_dotenv
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from pymongo import MongoClient
+
+# run the below commands within the script to install libraries first time on local
 # on server no need to run these commands within the script
 # nltk.download('stopwords')
 # nltk.download('punkt')
 # nltk.download('wordnet')
 # nltk.download('omw-1.4')
-
-from dotenv import load_dotenv
-
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-import re
-
-import warnings
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -86,6 +83,9 @@ def get_values_from_list_of_dict(obj):
 
   except IndexError:
     return ''
+  except Exception as error:
+    print(error, flush=True)
+    raise error
 
 
 def get_values(obj):
@@ -122,6 +122,7 @@ def normalize_mentor_data():
     res = users.aggregate([
 
       {"$match": {"mentor_status": 2, "profile_visibility": True}},
+      # {"$match": {"mentor_status": 2}},
 
       {"$lookup": {
         "from": "educations",
@@ -161,6 +162,7 @@ def normalize_mentor_data():
       {
         "$project": {
           "name": 1,
+          "email": 1,
           "about": 1,
           "tech_skill.name": 1,
           "soft_skill.name": 1,
@@ -332,7 +334,8 @@ def normalize_mentor_data():
     status = 'success'
     return status
 
-  except:
+  except Exception as error:
+    print(error, flush=True)
     status = 'failed'
     return status
 
@@ -342,4 +345,3 @@ print("Mentor Details normalization status : started at {}".format(datetime.now(
 normalization_status = normalize_mentor_data()
 
 print("Mentor Details normalization status : {} at {}".format(normalization_status, datetime.now()))
-

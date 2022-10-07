@@ -451,7 +451,7 @@ class MentorsSearchFilterParameters(MethodView):
 
     print(filter_values, flush=True)
 
-    return{
+    return {
       "data": filter_values,
     }
 

@@ -10,26 +10,40 @@ mongoose.connect(mongoString);
 const database = mongoose.connection;
 
 database.on('error', (error) => {
-  console.log(error)
+    console.log(error)
 })
 
 database.once('connected', () => {
-  console.log('Database Connected');
+    console.log('Database Connected');
 })
 
-module.exports = async (req, res) => {
+const toProfessionDTO = (profession) => ({
+    _id: profession._id,
+    profession: profession.profession,
+    necessary_skills: profession.necessary_skills,
+    helpful_skills: profession.helpful_skills,
+});
 
-  try {
-    const data = await Model.findOne({"profession": req.query.profession});
+module.exports = {
+    async getByName(req, res) {
+        try {
+            const data = await Model
+                .findOne({"profession": req.query.profession})
+                .lean();
 
-    res.json({
-      profession: data.profession,
-      necessary_skills: data.necessary_skills,
-      helpful_skills: data.helpful_skills
-    })
-  } catch (error) {
-    res.status(500).json({message: error.message})
-  }
+            res.json(toProfessionDTO(data));
+        } catch (error) {
+            res.status(500).json({message: error.message})
+        }
+    },
 
+    async getById(req, res) {
+        try {
+            const data = await Model.findById(req.params.id).lean();
 
-}
+            return res.json(toProfessionDTO(data));
+        } catch (e) {
+            res.status(500).json({message: error.message})
+        }
+    }
+};
