@@ -1,13 +1,8 @@
-const { json } = require("express/lib/response");
 const { PythonShell } = require("python-shell");
 const mongoose = require('mongoose');
 const parsedData = require("./Model/parsermodel");
-const { collection } = require("./Model/parsermodel");
-
-const MongoClient = require('mongodb').MongoClient
-const uri = 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?authSource=admin&replicaSet=atlas-1389yt-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true'
-const client = new MongoClient(uri)
-const connection = client.connect() // initialized connection
+const db = require("./../../utils/MongoUtil")
+require('dotenv').config()
 
 module.exports = async (req , res) => {
 //console.log("/api/resume-parser  | ", req.body);
@@ -68,13 +63,8 @@ module.exports = async (req , res) => {
     }
     }
 
-    const connect = connection
-    connect.then(() => {
-        const db = client.db('mapout-test')
-        const coll = db.collection('parserAccuracy')
-        coll.findOneAndUpdate(myquery,updateData,{upsert:true})
-        //console.log(coll.find({}))
-    })
+    const coll = parsedData
+    coll.findOneAndUpdate(myquery,updateData,{upsert:true})
     
     console.log("Updated")
     //parsedData.save()

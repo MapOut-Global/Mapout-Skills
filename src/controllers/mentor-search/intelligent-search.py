@@ -30,7 +30,7 @@ from schemas import (
 
 load_dotenv()
 
-URI = os.getenv("MONGODB_STAGING_URI")
+URI = os.getenv("MONGODB_URI")
 database = os.getenv("DATABASE")
 port = os.getenv("PORT")
 
@@ -263,8 +263,9 @@ class WeightedSearch(MethodView):
       request_params_path = query_fields_to_db_query_map[target_path]
       if request_params_path in args:
         query[target_path] = args.pop(request_params_path)
-
-    if is_empty(query):
+    
+    #print(query)
+    if is_empty(query['corpus']) or is_empty(query):
       query['corpus'] = "college guidance career guidance interview preparation job search guidance"
 
     for search_param, search_value in query.items():

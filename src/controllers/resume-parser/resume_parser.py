@@ -1,7 +1,6 @@
 
 from tkinter import N
 
-from itsdangerous import json
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFPageInterpreter
 from pdfminer.pdfinterp import PDFResourceManager
