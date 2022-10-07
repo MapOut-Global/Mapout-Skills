@@ -1,8 +1,10 @@
 import pandas as pd
 import sys
 from nltk.corpus import stopwords
-import nltk
 import spacy
+
+# FIRST TIME INSTALLATION
+#import nltk
 #nltk.download('stopwords')
 
 stopwords = set(stopwords.words('english'))

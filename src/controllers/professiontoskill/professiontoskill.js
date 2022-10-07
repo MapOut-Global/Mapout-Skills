@@ -2,20 +2,7 @@ require('dotenv').config();
 const Model = require('./Model/model');
 const express = require('express');
 const router = express.Router()
-const mongoose = require('mongoose');
-
-const mongoString = process.env.MONGODB_URI;
-
-mongoose.connect(mongoString);
-const database = mongoose.connection;
-
-database.on('error', (error) => {
-  console.log(error)
-})
-
-database.once('connected', () => {
-  console.log('Database Connected');
-})
+const db = require("../../utils/MongoUtil")
 
 module.exports = async (req, res) => {
 
