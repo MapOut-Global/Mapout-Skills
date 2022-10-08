@@ -265,9 +265,13 @@ class WeightedSearch(MethodView):
         query[target_path] = args.pop(request_params_path)
     
     #print(query)
-    if is_empty(query['corpus']) or is_empty(query):
-      query['corpus'] = "college guidance career guidance interview preparation job search guidance"
-
+    try : 
+      if is_empty(query['corpus']): 
+        query['corpus'] = "college guidance career guidance interview preparation job search guidance"
+    except KeyError:
+      if is_empty(query):
+        query['corpus'] = "college guidance career guidance interview preparation job search guidance"
+        
     for search_param, search_value in query.items():
       if type(search_value) is list:
         query[search_param] = ' '.join(search_value)
