@@ -39,9 +39,10 @@ EXPOSE 5041
 #
 # Must be used for deployment to any environemnt
 #
-ENTRYPOINT [ "python3", "src/controllers/mentor-search/production-server.py"]
+#ENTRYPOINT [ "python3", "src/controllers/mentor-search/production-server.py"]
 
 #
-# For local development
+# For production deployment
 #
+CMD [ "python3", "src/controllers/mentor-search/production-server.py"]
 #CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0", "--port=5041"]

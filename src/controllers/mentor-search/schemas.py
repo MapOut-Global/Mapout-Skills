@@ -53,17 +53,17 @@ class ListResponseSchema(Schema):
 
 
 class MentorsWeightedSearchRequestSchema(MentorsSearchRequestSchema):
-  experienceDesignation = fields.List(fields.String())
-  experienceCompanyName = fields.List(fields.String())
-  educationUniversity = fields.List(fields.String())
-  educationDegree = fields.List(fields.String())
-  educationSpecialization = fields.List(fields.String())
+  designation = fields.List(fields.String())
+  company_name = fields.List(fields.String())
+  university_name = fields.List(fields.String())
+  degree = fields.List(fields.String())
+  specialization = fields.List(fields.String())
 
   industry = fields.List(fields.String())
-  fieldOfWork = fields.List(fields.String())
-  language = fields.List(fields.String())
+  field_of_work = fields.List(fields.String())
+  languages = fields.List(fields.String())
   mentorType = fields.List(fields.String())
-  location = fields.List(fields.String())
+  current_location = fields.List(fields.String())
 
 
 class MentorExperienceSchema(Schema):

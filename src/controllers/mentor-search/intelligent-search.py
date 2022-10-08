@@ -243,16 +243,16 @@ class WeightedSearch(MethodView):
     # Transformation is necessary for the client-side convenience and ability to specify validation schema
     #
     query_fields_to_db_query_map = {
-      'experience.designation': 'experienceDesignation', # seems to be missed
-      'experience.company_name': 'experienceCompanyName',
-      'education.university': 'educationUniversity',
-      'education.degree': 'educationDegree', # seems to be missed
-      'education.specialization': 'educationSpecialization',
+      'experience.designation': 'designation',  # seems to be missed
+      'experience.company_name': 'company_name',
+      'education.university': 'university_name',
+      'education.degree': 'degree',  # seems to be missed
+      'education.specialization': 'specialization',
       'industry': 'industry',
-      'field_of_work': 'fieldOfWork',
+      'field_of_work': 'field_of_work',
       'language': 'languages',
       'mentorType': 'mentorType',
-      'current_location': 'location',
+      'current_location': 'current_location',
       'corpus': 'query',
     }
 
@@ -263,15 +263,13 @@ class WeightedSearch(MethodView):
       request_params_path = query_fields_to_db_query_map[target_path]
       if request_params_path in args:
         query[target_path] = args.pop(request_params_path)
-    
-    #print(query)
-    try : 
-      if is_empty(query['corpus']): 
-        query['corpus'] = "college guidance career guidance interview preparation job search guidance"
-    except KeyError:
-      if is_empty(query):
-        query['corpus'] = "college guidance career guidance interview preparation job search guidance"
-        
+
+    if 'corpus' in query and is_empty(query['corpus']):
+      del query['corpus']
+    # if is_empty(query) or 'corpus' not in query or is_empty(query['corpus']):
+    if is_empty(query):
+      query['corpus'] = "college guidance career guidance interview preparation job search guidance"
+
     for search_param, search_value in query.items():
       if type(search_value) is list:
         query[search_param] = ' '.join(search_value)
@@ -459,6 +457,7 @@ class MentorsSearchFilterParameters(MethodView):
     return {
       "data": filter_values,
     }
+
 
 api.register_blueprint(blp)
 

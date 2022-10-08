@@ -5,13 +5,20 @@ services:
     build:
       dockerfile: mentor-search.Dockerfile
       context: .
+    command:
+      - python3
+      - -m
+      - flask
+      - run
+      - --host=0.0.0.0
+      - --port=5041
     environment:
       PORT: 5041
       FLASK_DEBUG: 1
       FLASK_APP: 'src/controllers/mentor-search/intelligent-search.py'
       FLASK_ENV: 'development'
 #      MONGODB_STAGING_URI: 'mongodb://mapout:mapout@localhost/mapout'
-      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+      MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
 #      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout?retryWrites=true&w=majority'
       DATABASE: 'mapout-staging'
 #      DATABASE: 'mapout'
@@ -27,7 +34,7 @@ services:
       context: .
       dockerfile: mentor-search-indexer.Dockerfile
     environment:
-      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+      MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
       DATABASE: 'mapout-staging'
     volumes:
       - .:/home/app
@@ -44,7 +51,7 @@ services:
       NODE_ENV: 'development'
       APP_NAME: 'MapOut Skills'
       PORT: 4041
-      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+      MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
 #      MONGODB_STAGING_URI: 'mongodb://mapout:mapout@localhost/mapout'
       DATABASE: 'mapout-staging'
 #      DATABASE: 'mapout'
