@@ -287,7 +287,7 @@ class WeightedSearch(MethodView):
       query_corpus = query_corpus + value + " "
 
       subpaths = get_subpath(path)
-      subgroups = get_subgroup(value)
+      subgroups = get_subgroup(path)
 
       pipelines.append({
         "text": {

@@ -1,7 +1,4 @@
 import re
-import json
-from bson import json_util
-
 
 def remove_oid(string):
   # function that replace $oid to _id from collection.find() cursor
@@ -19,25 +16,24 @@ def flatten(l):
 
 
 # function that returns subpaths where weights will be lower based on search parameteres
-def get_subpath(paths):
+def get_subpath(path):
   subpaths = []
 
-  for path in paths:
-    if path == 'education.degree' or path == 'education.specialization' or path == 'education.university':
-      subpaths.append('experiencecorpus')
-      subpaths.append('educationcorpus')
+  if path == 'education.degree' or path == 'education.specialization' or path == 'education.university':
+    subpaths.append('experiencecorpus')
+    subpaths.append('educationcorpus')
 
-    if path == 'experience.designation' or path == 'experience.company_name':
-      subpaths.append('experiencecorpus')
+  if path == 'experience.designation' or path == 'experience.company_name':
+    subpaths.append('experiencecorpus')
 
-    if path == 'industry':
-      subpaths.append('field_of_work')
-      subpaths.append('experience.industry')
+  if path == 'industry':
+    subpaths.append('field_of_work')
+    subpaths.append('experience.industry')
 
-    if path == 'field_of_work':
-      subpaths.append('industry')
-      subpaths.append('experience.industry')
-
+  if path == 'field_of_work':
+    subpaths.append('industry')
+    subpaths.append('experience.industry')
+  
   normalised_result = list(set(subpaths))
 
   if len(normalised_result):
@@ -48,15 +44,14 @@ def get_subpath(paths):
 
 
 # function that returns subgroup where weights will be even lower based on search parameteres
-def get_subgroup(paths):
+def get_subgroup(path):
   subgroups = []
 
-  for path in paths:
-    if path == 'experience.designation' or path == 'experience.company_name':
-      subgroups.append('about')
+  if path == 'experience.designation' or path == 'experience.company_name':
+    subgroups.append('about')
 
-    if path == 'industry' or path == 'field_of_work':
-      subgroups.append('experiencecorpus')
+  if path == 'industry' or path == 'field_of_work':
+    subgroups.append('experiencecorpus')
 
   normalised_result = list(set(subgroups))
 
