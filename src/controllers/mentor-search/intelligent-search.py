@@ -403,6 +403,7 @@ class WeightedSearch(MethodView):
         "$project": {
           "user_id": 1,
           "name": 1,
+          "email": 1,
           'fieldOfWork': '$field_of_work',
           "experience.company_name": 1,
           "experience.designation": 1,

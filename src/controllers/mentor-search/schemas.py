@@ -104,6 +104,7 @@ class MentorEducationSchema(Schema):
 class MentorProfileSchema(Schema):
   user_id = fields.UUID(required=True)
   name = fields.String(required=True)
+  email = fields.Email()
   mentorPrice = fields.Number(required=True)
   fieldOfWork = fields.String()
   experience = fields.List(fields.Nested(MentorExperienceSchema))
