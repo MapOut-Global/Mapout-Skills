@@ -94,6 +94,8 @@ class MentorTalentBoardHostSchema(Schema):
 class MentorLanguageSchema(Schema):
   language = fields.String()
 
+class MentorForSchema(Schema):
+  name = fields.String()
 
 class MentorEducationSchema(Schema):
   specialization = fields.String()
@@ -110,7 +112,7 @@ class MentorProfileSchema(Schema):
   experience = fields.List(fields.Nested(MentorExperienceSchema))
   education = fields.List(fields.Nested(MentorEducationSchema))
   industry = fields.String()
-  mentorFor = fields.String()
+  mentorFor = fields.List(fields.Nested(MentorForSchema))
   mentorType = fields.String()
   about = fields.String()
   current_location = fields.String()
