@@ -164,9 +164,10 @@ class MentorSearch(MethodView):
         "$project": {
           "user_id": 1,
           "name": 1,
+          "email": "$user.email",
           "experience.company_name": 1,
           "experience.designation": 1,
-          "mentorFor": "$user.mentorFor.name",
+          "mentorFor": "$user.mentorFor",
           "mentorPrice": {
             "$toInt": "$user.mentorPrice"
           },
@@ -403,14 +404,14 @@ class WeightedSearch(MethodView):
         "$project": {
           "user_id": 1,
           "name": 1,
-          "email": 1,
+          "email": "$user.email",
           'fieldOfWork': '$field_of_work',
           "experience.company_name": 1,
           "experience.designation": 1,
           "education": 1,
           'mentorType': 1,
           'industry': 1,
-          "mentorFor": "$user.mentorFor.name",
+          "mentorFor": "$user.mentorFor",
           "mentorPrice": {"$toInt": "$user.mentorPrice"},
           "about": "$user.about",
           "current_location": "$user.current_location",
