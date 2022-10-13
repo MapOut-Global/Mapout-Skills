@@ -314,7 +314,7 @@ class WeightedSearch(MethodView):
           },
         })
 
-    print(pipelines, flush=True)
+    print("Pipelines: " + str(pipelines), flush=True)
 
     search_stage = {
       "$search": {
@@ -373,6 +373,8 @@ class WeightedSearch(MethodView):
         }
       },
     }
+
+    print("Search stage: " + str(search_stage), flush=True)
 
     return execute_query_with_params(args, collection, [
       search_stage,

@@ -47,8 +47,8 @@ variables: # Pass environment variables as key value pairs.
 environments:
   dev:
     count: 1               # Number of tasks to run for the "test" environment.
-    deployment: # The deployment strategy for the "test" environment.
-      rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
+#    deployment: # The deployment strategy for the "test" environment.
+#      rolling: 'recreate' # Stops existing tasks before new ones are started for faster deployments.
     variables:
       NODE_ENV: 'development'
       APP_NAME: 'MapOut Skills'

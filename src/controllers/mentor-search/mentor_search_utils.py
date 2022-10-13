@@ -127,8 +127,10 @@ def execute_query_with_params(args: dict, target_collection, additional_stages: 
     },
   ])
 
-  result = target_collection.aggregate(aggregation_pipeline)
-  json_data = get(list(result), 0)
+
+  result = list(target_collection.aggregate(aggregation_pipeline))
+  # print(list(result), flush=True)
+  json_data = get(result, 0)
   # print(json_data, flush=True)
 
   return {

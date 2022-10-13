@@ -18,8 +18,8 @@ services:
       FLASK_APP: 'src/controllers/mentor-search/intelligent-search.py'
       FLASK_ENV: 'development'
 #      MONGODB_STAGING_URI: 'mongodb://mapout:mapout@localhost/mapout'
+#      MONGODB_URI: 'mongodb://mapout:mapout@mongodb/mapout?retryWrites=true&w=majority'
       MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
-#      MONGODB_STAGING_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout?retryWrites=true&w=majority'
       DATABASE: 'mapout-staging'
 #      DATABASE: 'mapout'
     ports:
@@ -28,16 +28,23 @@ services:
       - "5041"
     volumes:
       - .:/home/app
+    networks:
+      - mapout-backend_mapout
 
   mentors-search-indexer:
     build:
       context: .
       dockerfile: mentor-search-indexer.Dockerfile
     environment:
+#      MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+#      MONGODB_URI: 'mongodb://mapout:mapout@mongodb/mapout?retryWrites=true&w=majority'
+#      DATABASE: 'mapout'
       MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
       DATABASE: 'mapout-staging'
     volumes:
       - .:/home/app
+    networks:
+      - mapout-backend_mapout
 
   skills:
     build:
@@ -51,13 +58,21 @@ services:
       NODE_ENV: 'development'
       APP_NAME: 'MapOut Skills'
       PORT: 4041
-      MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+#      MONGODB_URI: 'mongodb://mapout:mapout@mongodb/mapout?retryWrites=true&w=majority'
 #      MONGODB_STAGING_URI: 'mongodb://mapout:mapout@localhost/mapout'
-      DATABASE: 'mapout-staging'
 #      DATABASE: 'mapout'
+#      DATABASE: 'mapout'
+      MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
+      DATABASE: 'mapout-staging'
     ports:
       - "4041:4041"
     expose:
       - "4041"
     volumes:
       - .:/home/app
+    networks:
+      - mapout-backend_mapout
+
+networks:
+  mapout-backend_mapout:
+    external: true
