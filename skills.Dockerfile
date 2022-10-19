@@ -13,8 +13,6 @@ RUN pip3 install pandas
 RUN python3 -m spacy download en_core_web_sm
 RUN python3 -m nltk.downloader all
 
-RUN python -m nltk.downloader all
-
 COPY ./package*.json .
 
 ENV CI=true
