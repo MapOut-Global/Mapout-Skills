@@ -43,8 +43,8 @@ services:
       DATABASE: 'mapout-staging'
     volumes:
       - .:/home/app
-    networks:
-      - mapout-backend_mapout
+#    networks:
+#      - mapout-backend_mapout
 
   skills:
     build:
@@ -70,9 +70,9 @@ services:
       - "4041"
     volumes:
       - .:/home/app
-    networks:
-      - mapout-backend_mapout
+#    networks:
+#      - mapout-backend_mapout
 
-networks:
-  mapout-backend_mapout:
-    external: true
+#networks:
+#  mapout-backend_mapout:
+#    external: true

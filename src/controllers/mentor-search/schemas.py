@@ -23,7 +23,7 @@ def validate_sort_order(value, allowed_values):
 
 class ListRequestSchema(Schema):
   page = fields.Number(load_default=1)
-  perPage = fields.Number(load_default=20)
+  perPage = fields.Number(load_default=50)
   sortBy = fields.String()
   sortOrder = fields.String(load_default=MentorsSearchSortOrder.Desk.value)
 
@@ -32,10 +32,9 @@ class ListRequestSchema(Schema):
     validate_sort_order(value, allowed_search_sort_order)
 
 
-class MentorsSearchRequestSchema(Schema):
+class MentorsSearchRequestSchema(ListRequestSchema):
   query = fields.String()
   page = fields.Number(load_default=1)
-  perPage = fields.Number(load_default=20)
   sortBy = fields.Enum(MentorsSearchSortBy, by_value=True, load_default=MentorsSearchSortBy.Score)
   sortOrder = fields.Number(load_default=MentorsSearchSortOrder.Desk)
 

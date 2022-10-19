@@ -11,6 +11,8 @@ COPY ./requirements.txt .
 RUN pip3 install -r requirements.txt
 RUN pip3 install pandas
 
+RUN python -m nltk.downloader all
+
 COPY ./package*.json .
 
 ENV CI=true
