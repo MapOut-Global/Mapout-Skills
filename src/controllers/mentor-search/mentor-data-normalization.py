@@ -107,6 +107,14 @@ def get_values_from_list_of_list(obj, name):
     return ''
 
 
+def get_first_value_from_list_of_list(obj, name):
+  # method to extract values from a list of lists
+  try:
+    values = [x[name] for x in obj]
+    return (values[0])
+  except IndexError:
+    return ''
+
 def get_talent_board_details(x):
   # method to extract values from Talent Board
   try:
@@ -215,7 +223,10 @@ def normalize_mentor_data():
 
     # pre-process the field mentorFor
     df['mentorFor'].fillna("", inplace=True)
-    df['mentorFor'] = df['mentorFor'].apply(lambda x: get_values_from_list_of_list(x, 'name'))
+    
+    df['mentorServices'] = df['mentorFor'].apply(lambda x: get_values_from_list_of_list(x, 'name'))
+    
+    df['mentorFor'] = df['mentorFor'].apply(lambda x: get_first_value_from_list_of_list(x, 'name'))
 
     # pre-process the about me section
     df['about'].fillna(' ', inplace=True)
@@ -237,7 +248,7 @@ def normalize_mentor_data():
     df['corpus'] = (df['name'] + ' ' + df['languages'] + ' ' + df['field_of_work'] + ' ' + df['industry'] + ' ' + df[
       'techskillcorpus'] + ' ' + df['softskillcorpus'] + ' ' + df['educationcorpus'] + ' ' + df[
                       'experiencecorpus'] + ' ' + df['talentboards'] + ' ' + df['about']) + ' ' + df[
-                     'mentorType'] + ' ' + df['mentorTo'] + ' ' + df['mentorFor']
+                     'mentorType'] + ' ' + df['mentorTo'] + ' ' + df['mentorServices']
 
     # rename the field _id taken from users collection to user_id in mentorDetails collection
     df.rename(columns={"_id": "user_id"}, inplace=True)
@@ -296,7 +307,8 @@ def normalize_mentor_data():
           "mentorType": 1,
           "languages" : "$language.language",
           "current_location": "$user.current_location",
-         
+          "mentorFor":1
+          
         }
       },
     ])

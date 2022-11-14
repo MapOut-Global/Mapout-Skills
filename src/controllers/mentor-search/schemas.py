@@ -62,6 +62,7 @@ class MentorsWeightedSearchRequestSchema(MentorsSearchRequestSchema):
   field_of_work = fields.List(fields.String())
   languages = fields.List(fields.String())
   mentorType = fields.List(fields.String())
+  mentorFor = fields.List(fields.String())
   current_location = fields.List(fields.String())
 
 
