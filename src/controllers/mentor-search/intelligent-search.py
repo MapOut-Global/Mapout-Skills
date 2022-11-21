@@ -253,6 +253,7 @@ class WeightedSearch(MethodView):
       'field_of_work': 'field_of_work',
       'language': 'languages',
       'mentorType': 'mentorType',
+      'mentorFor': 'mentorFor',
       'current_location': 'current_location',
       'corpus': 'query',
     }
