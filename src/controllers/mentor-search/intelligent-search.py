@@ -176,6 +176,7 @@ class MentorSearch(MethodView):
           "profilePic": "$user.profilePic",
           "talent_board": "$user.talent_board",
           "rating": "$user.rating",
+          "docs": "$user.docs",
           "score": {
             "$meta": "searchScore"
           },
@@ -421,6 +422,7 @@ class WeightedSearch(MethodView):
           "profilePic": "$user.profilePic",
           "talent_board": "$user.talent_board",
           "rating": "$user.rating",
+          "docs": "$user.docs",
           'language': 1
         }
       },
