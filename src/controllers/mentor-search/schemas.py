@@ -96,11 +96,38 @@ class MentorLanguageSchema(Schema):
 
 class MentorForSchema(Schema):
   name = fields.String()
+  best = fields.Boolean()
+
+class NumberOfStarsSchema(Schema):
+  Number_of_reviews_between_rating_0_to_1 = fields.Number()
+  Number_of_reviews_between_rating_1_to_2 = fields.Number()
+  Number_of_reviews_between_rating_2_to_3 = fields.Number()
+  Number_of_reviews_between_rating_3_to_4 = fields.Number()
+  Number_of_reviews_between_rating_4_to_5 = fields.Number()
+
+class RatingSchema(Schema):
+  numberOfTotalRating = fields.Number()
+  totalPointsOfRating = fields.Float()
+  rating = fields.Float()
+  Number_of_stars = fields.Nested(NumberOfStarsSchema)
 
 class MentorEducationSchema(Schema):
   specialization = fields.String()
   degree = fields.String()
   university_name = fields.String()
+
+class FileSchema(Schema):
+  file = fields.String()
+
+class ShortVideoSchema(Schema):
+  mentor_video = fields.Nested(FileSchema)
+  candidate_video = fields.Nested(FileSchema)
+
+class DocsSchema(Schema):
+  report_doc = fields.List(fields.Nested(FileSchema))
+  short_video = fields.Nested(ShortVideoSchema)
+  cv_doc = fields.Nested(FileSchema)
+  item_picture = fields.List(fields.Nested(FileSchema))
 
 
 class MentorProfileSchema(Schema):
@@ -119,9 +146,10 @@ class MentorProfileSchema(Schema):
   profilePic = fields.String()
   talent_board = fields.Nested(MentorTalentBoardHostSchema)
   # talent_board = fields.String()
-  rating = fields.String()  # @TODO: change
+  rating = fields.Nested(RatingSchema)  # @TODO: change
   score = fields.Number()
   language = fields.List(fields.Nested(MentorLanguageSchema))
+  docs = fields.Nested(DocsSchema)
 
 
 class MentorProfilesSearchResponseSchema(ListResponseSchema):
