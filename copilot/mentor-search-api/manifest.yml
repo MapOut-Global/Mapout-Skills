@@ -31,12 +31,8 @@ exec: true     # Enable running commands in your container.
 # Optional fields for more advanced use-cases.
 #
 variables: # Pass environment variables as key value pairs.
-  NODE_ENV: 'development'
   APP_NAME: 'MapOut Skills'
   PORT: 5041
-  # Fix DB credentials
-  MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout-staging?retryWrites=true&w=majority'
-  DATABASE: 'mapout-staging'
 #  FLASK_APP: 'src/controllers/mentor-search/intelligent-search.py'
 
 
@@ -70,6 +66,7 @@ environments:
           in: 60s
           out: 120s
     variables:
+      NODE_ENV: 'production'
       PORT: 5041
       MONGODB_URI: 'mongodb+srv://mapout:mapout@mapoutdb.hj2on.mongodb.net/mapout?retryWrites=true&w=majority'
       DATABASE: 'mapout'
