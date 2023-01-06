@@ -10,6 +10,7 @@ COPY ./requirements.txt .
 
 RUN pip3 install -r requirements.txt
 RUN pip3 install pandas
+RUN pip3 install openpyxl
 RUN python3 -m spacy download en_core_web_sm
 RUN python3 -m nltk.downloader all
 
